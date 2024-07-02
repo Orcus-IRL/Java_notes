@@ -1,0 +1,718 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Generics</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e2a6563f-0a1a-4c1a-ae66-e8676fecbe8a" class="page serif"><header><div class="page-header-icon undefined"><span class="icon">📂</span></div><h1 class="page-title">Generics</h1><p class="page-description"></p></header><div class="page-body"><nav id="9cafcb70-e83e-4cf0-aff0-5e4bc10b7334" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#fb19ee26-cba3-4d96-8af6-639162b24540">READ THIS FIRST</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#287c7352-a710-4fda-a7ad-4cdf2882ab66">What is Generics?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ddd6556a-cfde-4ec2-a897-05125a87217b">how to use Generics in java?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7b55396c-72c7-40c2-a98f-8efd946c7fa3">Example of Generics in a single object and Array of object</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e5b5036a-3e7a-4ef3-af1e-5236f860b9b5">Bounds on Generics(Meaning: if we remove somethings in code what the ouput will be)</a></div></nav><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">READ THIS FIRST</summary><div class="indented"><ul id="7a87eda1-b732-4fcf-ac1d-86072a89d1ed" class="bulleted-list"><li style="list-style-type:disc">for understanding purpose these are called  <mark class="highlight-red">Generic class Parameters</mark><figure id="8c8541fc-4cba-40ec-9f2f-a5e9c77f198e" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_185938.png"><img style="width:624px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_185938.png"/></a></figure></li></ul><ul id="c8025f06-361f-45f5-9f8c-a26b98127720" class="bulleted-list"><li style="list-style-type:disc">these are called                                                             <mark class="highlight-teal">Generic Object Parameters (Datatypes)</mark><figure id="fbe7f424-6aad-4633-8b61-5cc70f659786" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_190631.png"><img style="width:624px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_190631.png"/></a></figure></li></ul><ul id="f04a3378-4976-4ae9-b627-7328fa746996" class="bulleted-list"><li style="list-style-type:disc">“T” is a common generic datatype → will accept only one datatype and it must be assigned to some kind of value.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">What is Generics?</summary><div class="indented"><ul id="2a5871df-ab6a-4b3f-9f85-bced0f5767e2" class="bulleted-list"><li style="list-style-type:disc">generics is used for generalization purpose.</li></ul><ul id="a67c5b59-0467-4717-9c90-9103cdcac755" class="bulleted-list"><li style="list-style-type:disc">older days, objects are used for generalization and now generics are used.</li></ul><ul id="6307ebdf-73d4-489d-9c0d-7f3f76e3fba8" class="bulleted-list"><li style="list-style-type:disc">type casting<figure id="08d41de8-a39b-4e9b-87b2-7ff2d8fba416" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-01_151421.png"><img style="width:768px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-01_151421.png"/></a></figure></li></ul><ul id="9d82d6dc-dd59-4db5-8d82-60a4ce1f8146" class="bulleted-list"><li style="list-style-type:disc">to overcome this error type casting is used.<figure id="24383dd4-930f-4029-8bf0-fa469b7bf6be" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_082113.png"><img style="width:864px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_082113.png"/></a></figure></li></ul><ul id="2b46b826-c611-4478-9e5f-287d7bb9fc9d" class="bulleted-list"><li style="list-style-type:disc">but the real problem is in converting from integer to string.</li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">older days example using object class</summary><div class="indented"><figure id="9211e3f0-70ef-41c3-aea7-ac79277c75c1" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_082537.png"><img style="width:912px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_082537.png"/></a></figure><ul id="050f2d3a-b2f7-4ca6-abb1-0b24134fb7a4" class="bulleted-list"><li style="list-style-type:disc">there is no compile time error like “Integer cannot be converted into String” or something like that.</li></ul><ul id="a00bb31f-5086-4bb5-9473-0a5a411420ea" class="bulleted-list"><li style="list-style-type:disc">but there will a run time error for the above code.</li></ul><figure id="a098d317-8361-48ae-9ff5-5bdde1531288" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083621.png"><img style="width:912px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083621.png"/></a></figure><ul id="74f98925-969e-4f18-a0e5-247a0cfa3038" class="bulleted-list"><li style="list-style-type:disc">there is no type safety(String can assigned and Integer can be assigned) in doing this method.  </li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">older days example using array of objects</summary><div class="indented"><ul id="7dad269f-b7b2-4081-a086-939195f06b5e" class="bulleted-list"><li style="list-style-type:disc">same for an array object.</li></ul><ul id="a7749042-27ef-4df6-8bad-2f0b65b8939c" class="bulleted-list"><li style="list-style-type:disc">say you want to create a array of object with String, but there is one integer instead of string.</li></ul><ul id="f2de210b-6852-403f-a111-7e4bce6beae9" class="bulleted-list"><li style="list-style-type:disc">the ide(compile time) will not show any error if you are typecasting an integer to string.</li></ul><figure id="a125b6b6-c582-46eb-aa15-09322a3732d3" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083410.png"><img style="width:672px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083410.png"/></a></figure><ul id="a8a6d262-8336-4ba7-b943-3d9f0a562528" class="bulleted-list"><li style="list-style-type:disc">but it will give a runtime error.<figure id="753a39e0-1dc8-475d-9dab-54b9ae4935b6" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083854.png"><img style="width:960px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_083854.png"/></a></figure><p id="d51a3aa9-2641-423a-93b9-068091bcdec5" class="">
+</p></li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">how to use Generics in java?</summary><div class="indented"><ul id="134d47b7-114d-4fe6-a678-a042d27707e1" class="bulleted-list"><li style="list-style-type:disc">example of how to used generics in java</li></ul><ul id="42a0dd73-f556-428c-955b-040cd5b5a6fd" class="bulleted-list"><li style="list-style-type:disc">Example: Generics in Array</li></ul><ul id="e4d28f22-5cb6-4bce-9f60-8e73b53af657" class="bulleted-list"><li style="list-style-type:disc">new generic cannot be created but an object has to be created and it has to be type casted to assign it as generic array.<figure id="de156cb6-62f7-4fa0-9bd5-a9b3d60a6798" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_084439.png"><img style="width:720px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_084439.png"/></a></figure></li></ul><ul id="8b99f61d-71be-4d3c-911d-0e21174d0343" class="bulleted-list"><li style="list-style-type:disc">that “T” can be any alphabet and it is used to store any datatype in the code.</li></ul><ul id="5d984b58-365a-4529-bb84-324c8b9c8292" class="bulleted-list"><li style="list-style-type:disc">inside the main class if i want to assign string to the objects then &lt;String&gt; keyword is used with the object reference name. </li></ul><ul id="75471d56-51b2-4614-b967-1cc5ef44377f" class="bulleted-list"><li style="list-style-type:disc">this is used to give the typesafey, because if you enter an integer for object 2 it will compile time error.<figure id="69697d0d-ffa6-465b-ac79-49634fa0d27a" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_084931.png"><img style="width:768px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-06_084931.png"/></a></figure></li></ul><ul id="1262ec04-08b1-4f13-a611-94e73657475e" class="bulleted-list"><li style="list-style-type:disc">This method is achieved using Type casting.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Example of Generics in a single object and Array of object</summary><div class="indented"><figure id="7f203c17-bb4d-487c-b832-b614834b0aa9" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_183909.png"><img style="width:1858px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_183909.png"/></a></figure><p id="55158753-6bd9-4f84-ba05-d67d07e1f812" class="">code and ouput are given down below:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d6a91bde-d8fd-4764-9fe2-352ba52cc968" class="code"><code class="language-Java">package generics;
+class Data&lt;T&gt;
+{
+        private T obj;
+        public void set(T v) {obj = v;}
+
+        public T get(){return obj;}
+}
+class MyArray&lt;T&gt;
+{
+    private T data[] = (T[])new Object[10];
+    private int length=0;
+    void append(T value){data[length++] = value;}
+
+    void display(){for(int i = 0; i&lt;length; i++) System.out.println(data[i]);}
+}
+public class Generics {
+    public static void main(String[] args)
+    {
+        Data&lt;Integer&gt; d= new Data&lt;&gt;();
+        d.set(10);
+        System.out.println(&quot;Data Class: &quot;);
+        System.out.println(d.get());
+
+        System.out.println(&quot;\nMy array Class: &quot;);
+        MyArray&lt;Integer&gt; my = new MyArray&lt;&gt;();
+        my.append(10);
+        my.append(20);
+        my.append(30);
+        my.display();
+    }
+}
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="72d4d9cb-a5cb-440a-b5b0-f040beb66b6f" class="code"><code class="language-Plain Text">Data Class: 
+10
+
+My array Class: 
+10
+20
+30</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Bounds on Generics(Meaning: if we remove somethings in code what the ouput will be)</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">what wil l happen when No generics parameter are given</summary><div class="indented"><p id="b98db577-4de2-40d3-ae6e-1de475a11b8f" class="">
+</p><ul id="88655b9e-45a8-491e-923b-dc7a9e2ab376" class="bulleted-list"><li style="list-style-type:disc">if no generics parameters(MyArray <mark class="highlight-orange">my </mark>= new MyArray&lt;&gt;();) are given then the <mark class="highlight-orange">my </mark>becomes a simple object reference and any input can be given while calling append method.</li></ul><ul id="1bb90b58-6908-4d2e-9024-4b4c9ea1096d" class="bulleted-list"><li style="list-style-type:disc">warning will be produced but error will not be there.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">what will happen  if more number of parameter is passed in the generic</summary><div class="indented"><ul id="afa82ee4-f661-47f7-8023-ea0ec5bf5519" class="bulleted-list"><li style="list-style-type:disc">In java more number of generic can be passed.</li></ul><ul id="13432443-c65a-4171-a92b-c1e99e23a5d7" class="bulleted-list"><li style="list-style-type:disc">when creating an generic object parameter it should be equal to the generic class parameter .</li></ul><ul id="6b0eb161-e3cc-4c65-8704-d16a3df2574e" class="bulleted-list"><li style="list-style-type:disc">Usually this is done in case of Key-value pair i.e.: &lt;K,V&gt; (Another Topic). </li></ul><ul id="6fd70961-d91d-402d-9f91-5946bc152769" class="bulleted-list"><li style="list-style-type:disc"></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">what about subclass(subtypes)</summary><div class="indented"><ul id="29f1a8b5-9910-43ae-a897-f25550f923c6" class="bulleted-list"><li style="list-style-type:disc">If one class is generic, then its child class is also generic class and can allow only the datatype of the generic parent class.</li></ul><ul id="7153d07a-30e9-43ed-9a2e-802fa152fe85" class="bulleted-list"><li style="list-style-type:disc">example: consider Myarray is parent array and Myarray2 is the subclass of parent array.</li></ul><ul id="ae546331-fd2b-49f2-aed5-6b9617062a05" class="bulleted-list"><li style="list-style-type:disc">if (Myarray&lt;String&gt;)  has type String then Myarray2 can allow only strings.<figure id="6f5056f4-6aa4-4bef-9098-b70a9d0ca761" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_191727.png"><img style="width:576px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_191727.png"/></a></figure></li></ul><ul id="ec528995-855d-49e3-942c-584330bd9936" class="bulleted-list"><li style="list-style-type:disc">instead of that <mark class="highlight-red">Myarray&lt;String&gt; </mark>if <mark class="highlight-red">Myarray&lt;T&gt;</mark> is placed then Myarray2 subclass has to be made generic as well by doing this <mark class="highlight-red">Myarray2&lt;T&gt;</mark> .</li></ul><ul id="b3abf1b0-a108-42e3-9361-0c69f235ef04" class="bulleted-list"><li style="list-style-type:disc">WORKING (Diagramatically)<figure id="4f3e09f3-8cd0-4460-bdf9-8558ddb1d5a9" class="image"><a href="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_192522.png"><img style="width:624px" src="Generics%20e2a6563f0a1a4c1aae66e8676fecbe8a/Screenshot_2024-03-14_192522.png"/></a></figure><p id="01f9ca13-b61d-4597-bda4-973f1e87df1b" class="">
+</p></li></ul></div></details></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

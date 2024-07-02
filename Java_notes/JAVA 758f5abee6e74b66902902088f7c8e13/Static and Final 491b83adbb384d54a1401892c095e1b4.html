@@ -1,0 +1,831 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Static and Final</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="491b83ad-bb38-4d54-a140-1892c095e1b4" class="page serif"><header><div class="page-header-icon undefined"><span class="icon">📂</span></div><h1 class="page-title">Static and Final</h1><p class="page-description"></p></header><div class="page-body"><nav id="37337a53-42d8-4d32-bbfd-f3a57edf8502" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cf781ea2-2758-41df-9351-3c92868cd67f">Static</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0e6f3222-d33f-498f-b7cc-c9337cdb4543">Final</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f5e3fec7-f59d-43b0-97be-2bd9f2eeb677">Singleton class</a></div></nav><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Static</summary><div class="indented"><ul id="2153c890-88c2-43f6-9df4-bddf63cfdf69" class="bulleted-list"><li style="list-style-type:disc">static keyword is used to represent meta data or information related to class.</li></ul><ul id="ae99dfb0-468e-4771-931d-7c2b0c2b8240" class="bulleted-list"><li style="list-style-type:disc">they are useful for<mark class="highlight-red"> representing of a class</mark> not about the object, though all the objects can share that information.</li></ul><p id="02100874-1ff3-4bb6-b1ef-115d8d74b594" class=""><mark class="highlight-blue">static</mark> keyword can be used in : (green color part are related )</p><ol type="1" id="71bc57a5-4485-4bcb-8109-319856dc6d5d" class="block-color-teal_background numbered-list" start="1"><li>static variable → use this when only some data are present related to a class.</li></ol><ol type="1" id="816db897-123b-4019-aaad-259f3f4c4b60" class="block-color-teal_background numbered-list" start="2"><li>static method  → if the data need some processing or computing then this can be used.</li></ol><ol type="1" id="8a6c85cd-9169-41b0-a466-db37320c3de5" class="block-color-teal_background numbered-list" start="3"><li>static nested class → if a lot of data are present and that can be grouped together then this this is used.(already used in the <a href="Inner%20class%2086e4f6b0ba5f46c8894af8f0e19073bd.html">inner class page</a>)</li></ol><ol type="1" id="0a962b36-737b-4742-a620-9c933745fba0" class="numbered-list" start="4"><li>static blocks →  used to initialize or setup members. (not commonly used)</li></ol><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Static variable </summary><div class="indented"><ul id="bfc03e97-0242-44a3-b4bf-dd01be016fb1" class="bulleted-list"><li style="list-style-type:disc">(exclude the method inside the honda city class)</li></ul><ul id="414d2cb9-0118-4960-9795-74645e183bc3" class="bulleted-list"><li style="list-style-type:disc">static members/variables are<mark class="highlight-red"> shared by all the objects in the class</mark>.</li></ul><ul id="733a0c63-790d-4d57-afa0-111d7aeb3505" class="bulleted-list"><li style="list-style-type:disc">static variable can be accessed using <mark class="highlight-red">class name</mark> or <mark class="highlight-red">object name</mark> (example 2). </li></ul><ul id="6b8dba50-a2c0-4214-bb02-2d73cb411ac9" class="bulleted-list"><li style="list-style-type:disc">if any one of the object <mark class="highlight-red">changes the static value</mark> then it will be <mark class="highlight-red">changed for all the objects</mark> as well.</li></ul><p id="9bb3402a-4482-45b4-baea-b23ed8262c48" class="">example1:</p><figure id="91b6d332-4894-4b61-9f94-c4e6f2a00620" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_081911.png"><img style="width:624px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_081911.png"/></a></figure><p id="d29acde5-4517-4dea-b180-230dadce8ff4" class="">example2:</p><figure id="c3dbcc36-3190-4dc7-8114-87841da031b6" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_084205.png"><img style="width:851px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_084205.png"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Static method</summary><div class="indented"><ul id="1dc831ab-c3b9-4a98-8c29-dd5d21c9024c" class="bulleted-list"><li style="list-style-type:disc">(include the onroad method inside the class)</li></ul><ul id="74a12209-4e43-4599-8fbb-45d1f828e8e6" class="bulleted-list"><li style="list-style-type:disc">that method will return value after some computation.</li></ul><ul id="b031362f-f299-4d7d-9729-00edcd255f3d" class="bulleted-list"><li style="list-style-type:disc">static methods <mark class="highlight-red">can only access static members/variables or other static methods</mark>, in this case it can only access the member <mark class="highlight-red">price</mark>. </li></ul><ul id="625ffa67-15ae-455e-b248-ec4d4bfe6cf4" class="bulleted-list"><li style="list-style-type:disc">but a <mark class="highlight-red">non static method</mark> can access both<mark class="highlight-red"> static and non static members</mark>. </li></ul><ul id="85aab72b-9b04-415d-923a-8cad3bb71f52" class="bulleted-list"><li style="list-style-type:disc">static methods can only called by the <mark class="highlight-red">class name</mark>.</li></ul><ul id="6e91d44d-fd26-4e18-8a80-8e74a762b08d" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue">this </mark>or <mark class="highlight-blue">super </mark>keywords cannot be used as well.</li></ul><p id="911a87a1-6f78-49e4-b533-6898d5f6b6e2" class="">example1:</p><figure id="54ab62c2-7677-4ca1-be93-178dd77a45d8" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_084407.png"><img style="width:576px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_084407.png"/></a></figure><p id="cd783637-18fa-476c-a56e-799eef77280a" class="">example2:</p><figure id="5b2ac37a-7e5e-4435-af88-edfcd92de66c" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-13_200020.png"><img style="width:576px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-13_200020.png"/></a></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f58014c8-c5da-401d-bb93-e2b9ad08852e" class="code"><code class="language-Java">class watch
+{
+    static long price = 10;
+    protected int a = 20;
+    static double withTax(){return price;}
+}
+
+class  staticAndFinal
+{
+    public static void main(String[] args)
+    {
+        watch w1 = new watch();
+        watch w2 = new watch();
+
+        System.out.println(&quot;watch 1 price: &quot;+w1.price+&quot; &quot;+w1.a);    // using an object
+        w1.price = 100;w1.a = 50;
+        System.out.println(&quot;watch 1 price after changing: &quot;+w1.price+&quot; &quot;+w1.a);  // using the class directly
+        System.out.println(&quot;watch 2 price also changed without declaring: &quot;+ w2.price+&quot; &quot;+w2.a);  // static method is called
+    }
+}
+
+output
+watch 1 price: 10 20
+watch 1 price after changing: 100 50
+watch 2 price also changed without declaring: 100 20</code></pre><p id="a95df536-df20-4fba-be78-01f59d70cf99" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">static nested class</summary><div class="indented"><ul id="9fab7a9a-df50-447f-9ac2-4b81b6599760" class="bulleted-list"><li style="list-style-type:disc">only the <mark class="highlight-red">inner class</mark> can be make static.</li></ul><ul id="4616149a-3d62-412a-81e5-b7f16ac039f1" class="bulleted-list"><li style="list-style-type:disc">if you have <mark class="highlight-red">multiple static method</mark> then it can be grouped together to make a <mark class="highlight-red">static class (inner class) </mark>inside outer class.</li></ul><ul id="2e43742c-af87-462f-b2ff-53defbaf7443" class="bulleted-list"><li style="list-style-type:disc">In Java, a static nested class is a nested class that is declared with the <mark class="highlight-blue">static</mark> keyword. It is a nested class that belongs to the outer class rather than an instance of the outer class.</li></ul><ul id="823ddc89-46b4-4d48-86e4-329665f3ed86" class="bulleted-list"><li style="list-style-type:disc">A static nested class can be used to <mark class="highlight-red">group a lot of data</mark> that is related to the outer class. It is commonly used when there are <mark class="highlight-red">multiple static methods within the outer class</mark>.</li></ul><ul id="7e274c28-5c70-40f4-b625-ea627abf501a" class="bulleted-list"><li style="list-style-type:disc">To declare a static nested class, use the following syntax:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ee10284d-efdf-45c0-a2ba-6d6abd1dcb63" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">public class OuterClass {
+    // Outer class members and methods
+
+    public static class StaticNestedClass {
+        // Static nested class members and methods
+    }
+}
+</code></pre><ul id="a81b7e90-2815-4bca-8c10-283ae229e3bf" class="bulleted-list"><li style="list-style-type:disc">The static nested class can be accessed using the outer class name, as shown below:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2007bfa1-b8ae-42a1-8be2-ebd81c5cdfa4" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+</code></pre><ul id="02ea0db2-a47a-402b-bc79-175c2653a455" class="bulleted-list"><li style="list-style-type:disc">This allows you to access the members and methods of the static nested class.</li></ul><p id="9c957748-bc6a-4151-b852-60c3de25e44a" class=""><em>example: </em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="885426c6-2472-4ced-a844-8da380dde33a" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">public class OuterClass {
+    private static String outerVariable = &quot;Hello from OuterClass&quot;;
+
+    public static class StaticNestedClass {
+        public void printMessage() {
+            System.out.println(outerVariable);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+        nestedObject.printMessage();
+    }
+}
+</code></pre><p id="5841d9c8-784c-43de-919f-426472e2cd67" class="">In this example, we have an outer class called <code>OuterClass</code> and a static nested class called <code>StaticNestedClass</code>. The <code>StaticNestedClass</code> has a method called <code>printMessage()</code> which prints the value of the outer class&#x27;s static variable <code>outerVariable</code>.</p><p id="c6f1d7c8-3a52-4e7c-82de-5f836aa3235c" class="">To create an instance of the static nested class and call its method, we use the syntax <code>OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();</code>. Then, we can call the <code>printMessage()</code> method on the <code>nestedObject</code> instance.</p><p id="8c1364e0-c157-4671-918d-3acc0dc73dfe" class="">When we run the <code>Main</code> class, it will output &quot;Hello from OuterClass&quot; to the console.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">static block</summary><div class="indented"><ul id="ada3284c-53d5-476c-818d-b969f208809b" class="bulleted-list"><li style="list-style-type:disc">it is <mark class="highlight-red">not commonly</mark> used in java.</li></ul><ul id="9ff0d669-c9c4-4c95-a6b3-c5936a92e81f" class="bulleted-list"><li style="list-style-type:disc">this will be the<mark class="highlight-red"> first thing to execute </mark>in the code.</li></ul><ul id="3b160a23-e852-41a3-86dd-a471c2ae76ca" class="bulleted-list"><li style="list-style-type:disc">the static blocks are executed <mark class="highlight-red">in the order</mark> that you defined.</li></ul><ul id="87eeb36b-43c9-492e-a1d7-575fe7ef0429" class="bulleted-list"><li style="list-style-type:disc">use → if you want to <mark class="highlight-red">setup/initialize</mark> something static block is used.</li></ul><figure id="446e3131-b8de-4eba-890c-f0130f0c0c09" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_103547.png"><img style="width:288px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_103547.png"/></a></figure><p id="9187dbe0-edf5-4850-bddb-0740f4e8c4df" class="">Here is an example of a static block:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="803b59bd-e5e5-40c1-a96c-fb721ba6a833" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">class Example {
+    static int num;
+
+    static {
+        num = 10;
+        System.out.println(&quot;Static block is executed.&quot;);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Value of num: &quot; + num);
+    }
+}
+</code></pre><p id="2babd4e2-d2b2-4223-81d6-58d1e1516e12" class="">In this example, we have a class called <code>Example</code> with a static variable <code>num</code> and a static block. The static block is executed before the <code>main</code> method. Inside the static block, we initialize the value of <code>num</code> to 10 and print a message.</p><p id="a8929b20-cfa8-4581-8e96-438aee780486" class="">When we run the program, the static block will be executed first, and then the <code>main</code> method will be called. The output will be:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="567e8507-a810-4549-b0a0-b072cb5b9b6c" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Static block is executed.
+Value of num: 10
+</code></pre><p id="e9b64724-ec95-47b4-badd-4ae70564c025" class="">example 2: </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b15d9969-c455-4e5d-9d89-46a8c18ad091" class="code"><code class="language-Java">class staticAndFinal
+{
+    static int num;
+
+    static
+    {
+        num = 10;
+        System.out.println(&quot;block 1&quot;);
+    }
+    public static void main(String[] args)
+    {
+        System.out.println(num);
+    }
+    static 
+    {
+        System.out.println(&quot;block 2&quot;);
+    }
+}</code></pre><p id="19c53cd4-71b0-43b4-93cf-ababcf85c47f" class="">the following output will be produced: </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b0774a76-563e-4361-b3eb-73d78b7d6c09" class="code"><code class="language-Plain Text">block 1
+block 2
+10</code></pre><p id="441bc9b3-ebee-4435-bc95-e98d9407385d" class="">while using inhereitance</p><figure id="840c4cdd-07a4-41c9-a4c7-51bb23dbac9c" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_110115.png"><img style="width:432px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_110115.png"/></a></figure><p id="561cb5b2-9bcd-4fd7-a7aa-192eff0916e7" class="">the following ouput will be produced</p><figure id="444e4dd0-4838-4662-ad5f-6d13f6e5fba2" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_110347.png"><img style="width:432px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_110347.png"/></a></figure></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Final</summary><div class="indented"><ul id="8af391d4-1537-4bdf-86c2-cb851ce4f865" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue">final </mark>is like a <mark class="highlight-red">constant</mark>(const)</li></ul><ul id="59c893a3-3b46-41c7-9b43-b46aca38aa4e" class="bulleted-list"><li style="list-style-type:disc">final can be used in the following ways:<ol type="1" id="cd22b694-92af-4be6-943e-460d110f9a95" class="numbered-list" start="1"><li>final variables</li></ol><ol type="1" id="c252d6e7-9acb-40d3-8609-4cfceba5dd4f" class="numbered-list" start="2"><li>final methods</li></ol><ol type="1" id="5980f2d1-01b9-49e7-a018-3725dfe6c690" class="numbered-list" start="3"><li>final class</li></ol></li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Final variables</summary><div class="indented"><ul id="d7e3dabd-a50d-479b-9367-5c714298a6be" class="bulleted-list"><li style="list-style-type:disc">once a variable is assigned with the<mark class="highlight-blue"> final</mark> keyword it<mark class="highlight-red"> cannot be changed</mark>.</li></ul><ul id="7fb25a76-e7ba-407a-be93-209d38ace5bb" class="bulleted-list"><li style="list-style-type:disc">final variables are written in <mark class="highlight-red">capital letters</mark>.</li></ul><ul id="cb872f2d-29d5-4d73-a226-33bb8dc6526c" class="bulleted-list"><li style="list-style-type:disc">there are <mark class="highlight-red">three ways to initialize</mark> a final variable.<ol type="1" id="85011319-794d-4261-a85f-41b2458cbf24" class="numbered-list" start="1"><li>normal way .</li></ol><ol type="1" id="311bf8b3-9631-491e-95ca-afa973eab6e5" class="numbered-list" start="2"><li>using static block.</li></ol><ol type="1" id="91568d0e-20fe-462f-a756-d97416da434a" class="numbered-list" start="3"><li>using constructor to declare.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ea2ee3df-5f03-452b-b7bd-981fd8ebd414" class="code"><code class="language-Java">class my
+{
+    final int MAX = 1; //normal declaration
+    
+    final static int NORMAL; // using static block
+    static{NORMAL = 5;}
+    
+    final int MIN; //using constructor 
+    my(){MIN = 20;} 
+}</code></pre></li></ol></li></ul><ul id="46529942-09c5-40c5-9d65-d3a1f49d66db" class="bulleted-list"><li style="list-style-type:disc">once these are declared it cannot be changed.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Final method</summary><div class="indented"><ul id="55e45d62-6407-4af1-9810-bface2905dbd" class="bulleted-list"><li style="list-style-type:disc">final methods <mark class="highlight-red">cannot be overrided or redefined</mark> that method.</li></ul><ul id="e948b74a-1b6e-4f56-a4c7-f877c4450e4a" class="bulleted-list"><li style="list-style-type:disc">example:<figure id="df435647-59ee-4ea7-ab83-287a1618180d" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_130809.png"><img style="width:240px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_130809.png"/></a></figure><p id="18378060-6b2b-4b23-abe4-e564dd006ac0" class="">
+</p></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Final class</summary><div class="indented"><ul id="7e6f1c6c-0085-473c-9015-072fbdbd2bf5" class="bulleted-list"><li style="list-style-type:disc">final class <mark class="highlight-red">cannot be extended or inherited</mark>.</li></ul><ul id="e7d46b8d-1e52-4706-bacb-7c247b21bb5b" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">objects can be created</mark> for that class and the<mark class="highlight-red"> methods</mark> that are present inside that class <mark class="highlight-red">can be called</mark> but the class cannot extend.</li></ul><figure id="e85d9a7a-a792-4368-94ff-31b9f84cefeb" class="image"><a href="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_130809%201.png"><img style="width:927px" src="Static%20and%20Final%20491b83adbb384d54a1401892c095e1b4/Screenshot_2024-02-14_130809%201.png"/></a></figure><p id="6bf19f31-8298-45f2-8385-ed2aa8b89079" class="">
+</p></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Singleton class</summary><div class="indented"><ul id="e8095ab6-d10e-433e-95ff-e05c067d93b3" class="bulleted-list"><li style="list-style-type:disc">a class which<mark class="highlight-red"> cannot create more than one object</mark> is called as singleton class .</li></ul><ul id="5b196d10-a78f-4add-9105-ed333f164d86" class="bulleted-list"><li style="list-style-type:disc">many reference variable<mark class="highlight-red"> can be created</mark> but all the reference variable will hold the <mark class="highlight-red">same object</mark>.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="afc4e3d5-3b11-44fc-9a01-8a5c3cb49e5b" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">class Singleton {
+    private static Singleton instance = null;
+
+    private Singleton() {
+        // private constructor to prevent instantiation
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        } 
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println(&quot;Hello, I am a singleton class!&quot;);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Singleton singleton = Singleton.getInstance();
+				//many reference can be created but all will hold the same object.
+        singleton.showMessage();
+    }
+}
+</code></pre><p id="97ab6221-eaa2-465d-8974-7917fdcfc491" class="">In this example, we have a <code>Singleton</code> class with a private constructor to prevent direct instantiation. The class has a static <code>getInstance()</code> method which returns the instance of the class. If the instance is null, a new instance is created. Otherwise, the existing instance is returned.</p><p id="913da96c-ffb9-4aab-9137-10f08c22adba" class="">In the <code>Main</code> class, we call the <code>getInstance()</code> method to get the singleton instance and then call the <code>showMessage()</code> method to display a message.</p><p id="333d827d-af3e-4cd6-b835-c12b235cabdd" class="">When we run the program, it will output:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="77b5a5f1-90f1-4380-bedd-eb632202c155" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Hello, I am a singleton class!
+</code></pre><p id="4b26de33-9dd4-4b3a-8456-ab67ca56890d" class="">This example demonstrates the implementation of a singleton class in Java, where only one instance of the class can be created.</p><h3 id="a98bdf34-a919-464d-b283-22bef1505f0a" class="">another example code , the number reference must not exceed 3 if it does then create new instance</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d9658609-4c28-462a-9607-d064ad348c9c" class="code"><code class="language-Java">class Singleton {
+    private static Singleton instance;
+    private static int count = 0;
+    private Singleton() {
+        // private constructor to prevent instantiation
+    }
+    public static Singleton getInstance() {
+        if (instance == null || count&gt;=3)  
+			  {
+            instance = new Singleton(); //keep holding this instance untill the count exceeds 3
+            count = 1; //this is to increase the counter by 1 (ie. for null) 
+        }
+        else {count++;}
+
+        return instance;
+    }
+    public void showMessage() {
+        System.out.println(&quot;Hello, I am a singleton class!&quot;);
+    }
+}
+
+public class roughuse {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+        Singleton s3 = Singleton.getInstance();
+        Singleton s4 = Singleton.getInstance();
+
+        if (s1 == s2 &amp;&amp; s1 == s3){System.out.println(&quot;same &quot;+s1+&quot; &quot;+s2+&quot; &quot;+s3);} else {System.out.println(&quot;not same&quot;);}
+        System.out.println(s4);
+    }
+}</code></pre><p id="3851d330-1402-4866-8421-c8acfb97617d" class="">output:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16df8fbc-44e8-498c-af54-96213a68bed0" class="code"><code class="language-Plain Text">same Singleton@5f184fc6 Singleton@5f184fc6 Singleton@5f184fc6
+Singleton@9807454
+
+Process finished with exit code 0</code></pre></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

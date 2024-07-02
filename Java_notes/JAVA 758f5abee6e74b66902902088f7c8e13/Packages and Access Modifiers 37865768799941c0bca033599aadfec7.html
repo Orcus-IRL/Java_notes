@@ -1,0 +1,689 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Packages and Access Modifiers</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37865768-7999-41c0-bca0-33599aadfec7" class="page serif"><header><div class="page-header-icon undefined"><span class="icon">📂</span></div><h1 class="page-title">Packages and Access Modifiers</h1><p class="page-description"></p></header><div class="page-body"><nav id="89795b57-4795-48bc-a688-0431ef1b0b9d" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0aaafe36-ee72-439c-bb61-d2f52aee1f52">what is package?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2b211bc5-d544-40a4-9ad7-0d8afd03b48d">How to create packages?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a81278a4-e589-4768-aa66-543f61ad9f47">How to create subpackages?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#47fe1ef0-ccbd-4b2e-95b5-798a9a42c3cf">IMPORTING</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b7bf7260-99eb-496b-8ab7-1c04f144375b">Access Modifiers</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a0ca628b-0410-4958-8d68-f4c95d76bc77">Overall view of accessiblity levels</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#88867df4-812f-49a9-ae25-a92c24e7b2b2">Naming convention (how to give name to package)</a></div></nav><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">what is package?</summary><div class="indented"><ul id="08eeed54-66e0-4523-804b-4ffd37c26f26" class="bulleted-list"><li style="list-style-type:disc">a package is collection of<mark class="highlight-red"> classes or interfaces or other packages</mark>.</li></ul><ul id="c1276ee5-d187-4b73-8c06-a713d3fc355c" class="bulleted-list"><li style="list-style-type:disc">they are used for <mark class="highlight-red">organizing </mark>java project.</li></ul><ul id="4c86a3d3-aed1-4c39-be05-f73255bc6805" class="bulleted-list"><li style="list-style-type:disc">basicallly if we want to organize our laptop documents we create a folder, tha’s is called package in java</li></ul><ul id="bff4a18a-70b3-48f7-9b78-eb025dd33830" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">organizing java files or class files in a single folder </mark>is called as package. </li></ul><ul id="4337dae4-e024-4ce9-bb6d-0a867c44fa9c" class="bulleted-list"><li style="list-style-type:disc">packages can be imported using <mark class="highlight-blue">import</mark> keyword</li></ul><ul id="f48863a5-48f8-4cf2-9f50-2abbbbd80b2e" class="bulleted-list"><li style="list-style-type:disc">there are<mark class="highlight-red"> two ways</mark> that a buit-in package can be imported</li></ul><p id="a4937798-96f8-4c5a-abbe-2169dd6d956d" class=""><em>example: </em></p><figure id="37079308-bd6d-4b99-b9e5-45692c914e8c" class="image" style="text-align:left"><a href="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_200256.png"><img style="width:624px" src="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_200256.png"/></a></figure><ul id="04b719e2-6cbd-465e-ac4f-291dc0fa0362" class="bulleted-list"><li style="list-style-type:disc">first two lines are the <mark class="highlight-red">normal </mark>import way.</li></ul><ul id="20dcc8ac-0fd9-4676-9395-9b082a5f5cdd" class="bulleted-list"><li style="list-style-type:disc">packages can be <mark class="highlight-red">directly given</mark> in the main method as well, this is the 2nd way.</li></ul><p id="a5f72ded-8ade-4a37-a608-f27bfe74aec9" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">How to create packages?</summary><div class="indented"><ul id="48918722-d707-4247-b583-28cff8ca63a5" class="bulleted-list"><li style="list-style-type:disc">create file and wite the codes.</li></ul><ul id="cbe7ab00-7127-4fcf-9e4a-eb5c973eac5f" class="bulleted-list"><li style="list-style-type:disc">using the following command in the first line of the program a package can be created<figure id="2101d1cd-361f-4c1d-a2cf-74d6a5ba542b" class="image"><a href="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_201143.png"><img style="width:528px" src="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_201143.png"/></a></figure></li></ul><ul id="b1aa4130-34bc-48a1-88e5-f875bd72f20b" class="bulleted-list"><li style="list-style-type:disc">if I compile the program using normal compile method “<mark class="highlight-blue">javac</mark><mark class="highlight-red"> </mark><mark class="highlight-red"><a href="http://Demo.java">Demo.java</a></mark>” in terminal, it will create the  <mark class="highlight-red">Demo.class</mark> in the<mark class="highlight-red"> same folder</mark>.</li></ul><ul id="a6b91a0b-4ae2-4591-8914-135f06dd4f78" class="bulleted-list"><li style="list-style-type:disc"> that’s not what i needed,<mark class="highlight-red"> Demo.class in a separate package/folder</mark> with the name <mark class="highlight-red">mypack1</mark>, so the following command is used.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="22652808-42f2-4bc8-b890-e48e16a78d28" class="code"><code class="language-Plain Text">Syntax:
+javac -d {path to save the package} classname.java
+
+example:(saving the package in the same folder where the Demo.java file is.)
+javac -d . Demo.java</code></pre><ul id="5ad90416-e174-4611-9df7-477561338ce5" class="bulleted-list"><li style="list-style-type:disc">where the dot(.) the path of the current folder.</li></ul><ul id="f953d6a7-1ba8-41a6-8fca-276d36f1ce48" class="bulleted-list"><li style="list-style-type:disc">any number of .class files can be stored in a package.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">How to create subpackages?</summary><div class="indented"><ul id="2c6bb09d-c13d-4657-822e-e36214b729a9" class="bulleted-list"><li style="list-style-type:disc">after the main package name add a dot(.) and give the subpackage.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f1b5b060-6718-4deb-aa90-dc7d137ff7b9" class="code"><code class="language-Plain Text">Syntax:
+package mainPackageName.subPackageName;
+
+example:
+package mypack1.mypack2;</code></pre><ul id="57c84e90-9b48-4c59-90c1-47d199f8bc7f" class="bulleted-list"><li style="list-style-type:disc">mypack2 subfolder will be created inside the mypack1 folder.</li></ul><ul id="1010e13a-6be6-41f4-9f43-413a4542854f" class="bulleted-list"><li style="list-style-type:disc">more number of subpackages can be added as well using this.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">IMPORTING</summary><div class="indented"><ul id="4e35ec8a-6f75-414a-931e-6d9182dcb12e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue">import </mark>keyword is used to import the packages and subpackages that are created and can be used.</li></ul><ul id="629fb0dd-bf3c-43a7-92bd-37c562e9e72b" class="bulleted-list"><li style="list-style-type:disc">example:<figure id="b3c054e8-2208-407c-b519-6afd42b3694a" class="image" style="text-align:left"><a href="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_203753.png"><img style="width:384px" src="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_203753.png"/></a></figure></li></ul><p id="f42df3c1-7c01-4f7b-a507-50d47332ac92" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Access Modifiers</summary><div class="indented"><ul id="d635840a-cb19-4273-89e8-68238c2118ac" class="bulleted-list"><li style="list-style-type:disc">they are used for specifing the access levels or visiblity of members of a class.</li></ul><ul id="574fe75c-0219-46a5-a7e4-cd8ebdadff8b" class="bulleted-list"><li style="list-style-type:disc">there are 4 types of access modifiers<ol type="1" id="92d3b94b-0b59-4c6e-b548-8464c4f65e84" class="numbered-list" start="1"><li>default</li></ol><ol type="1" id="ac641a76-66e4-45d2-9c2f-5d95e3f71dc1" class="numbered-list" start="2"><li>private </li></ol><ol type="1" id="611a4033-1657-4d8c-93ac-ccc5b4c029d6" class="numbered-list" start="3"><li>protected</li></ol><ol type="1" id="7ac4ea1f-072b-4ee3-aa3e-a01794e664cc" class="numbered-list" start="4"><li>public </li></ol></li></ul><ul id="ecee35d8-68bb-44d8-8c5f-7a89d52ebfbc" class="bulleted-list"><li style="list-style-type:disc">a super/outer class can have<mark class="highlight-red"> members, method and inner class</mark>.</li></ul><ul id="53940021-265e-4e46-8684-bd816e6ea67e" class="bulleted-list"><li style="list-style-type:disc">all these things <mark class="highlight-red">are eligible</mark> to have <mark class="highlight-red">anyone </mark>of the 4 access modifiers.</li></ul><ul id="2678759e-b3fb-4086-b3b6-f080a3030b97" class="bulleted-list"><li style="list-style-type:disc">the super class can either <mark class="highlight-red">have default or public </mark>and the super class can be used in two different ways. </li></ul><ul id="8bff8c32-3e25-49b6-9b12-bd8b123d61e8" class="bulleted-list"><li style="list-style-type:disc">1st usage → used to create an object (term used: <mark class="highlight-red">hasA</mark>).</li></ul><ul id="6d4d1788-5b49-4ad0-bdd7-8f46c56994d1" class="bulleted-list"><li style="list-style-type:disc">2nd usage → used to create a sub-class(term used: <mark class="highlight-red">isA</mark>).</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Overall view of accessiblity levels</summary><div class="indented"><ul id="d992ae27-d46d-4acc-9658-0319267fe420" class="bulleted-list"><li style="list-style-type:disc">default access modifiers<mark class="highlight-red"> are public but only  inside a package</mark>, outside the package they are not accessible.</li></ul><figure id="ca5186af-951e-4cbc-b058-e966b53dea8c" class="image"><a href="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_210454.png"><img style="width:576px" src="Packages%20and%20Access%20Modifiers%2037865768799941c0bca033599aadfec7/Screenshot_2024-02-14_210454.png"/></a></figure><p id="a6dcbd15-bbbb-4b56-b377-dbf3bb1356b3" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Naming convention (how to give name to package)</summary><div class="indented"><ul id="16cea389-992e-4e7a-bf0d-f88a337bcf7e" class="bulleted-list"><li style="list-style-type:disc">if a college has a website like <mark class="highlight-red">https://kct.ac.in</mark></li></ul><ul id="f2da4274-84b9-438d-8bb2-c9446d5f995a" class="bulleted-list"><li style="list-style-type:disc">there are <mark class="highlight-red">many classes needed</mark> to contain every data.</li></ul><ul id="000f31d8-7bc8-497d-bfdf-4689dad31017" class="bulleted-list"><li style="list-style-type:disc">so the following technique is used to give name for every process.</li></ul><ul id="340ebcb3-120d-4cf3-8e71-a10996b41338" class="bulleted-list"><li style="list-style-type:disc">Example: if <mark class="highlight-red">admission and examination </mark>process has to be added, then</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9c2f22b8-42c3-42e7-80c1-d620c7307146" class="code"><code class="language-Plain Text">syntax:
+website_in_reverse_order.package_name</code></pre><ul id="2f1b8ba6-43be-432d-b8a7-e48cbaf4be35" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">in.kct.admission</mark> →for admission purpose.</li></ul><ul id="3080c824-52fb-4280-9fe9-786accae53ca" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">in.kct.examination</mark> → for examination purpose.</li></ul><ul id="7940439b-4611-4616-b5ab-bc799c8834d4" class="bulleted-list"><li style="list-style-type:disc">they both have <mark class="highlight-red">fees class</mark> in common so creating package is best <mark class="highlight-red">to avoid class name errors</mark>.</li></ul></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

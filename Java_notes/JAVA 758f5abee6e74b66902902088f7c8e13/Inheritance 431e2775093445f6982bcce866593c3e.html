@@ -1,0 +1,681 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Inheritance</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="431e2775-0934-45f6-982b-cce866593c3e" class="page serif"><header><img class="page-cover-image" src="Inheritance%20431e2775093445f6982bcce866593c3e/Screenshot_2024-02-13_183048.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📂</span></div><h1 class="page-title">Inheritance</h1><p class="page-description"></p></header><div class="page-body"><nav id="66e41083-6485-4fbf-8c30-43c29884226d" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1fd65764-6ef9-4ca5-ae38-2752792e30f9"><span style="border-bottom:0.05em solid">Generalization and Specialization</span></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6bdd0bf6-2cf3-4fa1-bf60-044b70d7786b"><span style="border-bottom:0.05em solid">Inheritance:</span></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cf10efcd-df9b-4c0c-b0ac-6eabe0ba7df0"><span style="border-bottom:0.05em solid">Method Overriding</span></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#424d7895-3503-422e-a088-3af3f6642de3">Do’s and Don’ts when overriding</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#891ac85c-68b0-4ce4-a323-d5194ec6c0c8">Polymorphism in overriding and overloading</a></div></nav><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><span style="border-bottom:0.05em solid">Generalization and Specialization</span></summary><div class="indented"><p id="1f620dab-f629-4c10-b112-53a1576841dd" class="">Generalization:</p><figure id="dd8cc469-bbe4-47ba-a915-6d2bd9cc4497" class="image" style="text-align:left"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture10.png"><img style="width:816px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture10.png"/></a></figure><ul id="a835c29e-7098-4528-90a9-f20628c7cfe0" class="bulleted-list"><li style="list-style-type:disc">The term smartphone came after creating the iPhone, Samsung, vivo. So, the definition is<mark class="highlight-red"> bottom to up.</mark></li></ul><ul id="a9a6ba58-86fb-4ae7-9f4d-ffd58c834dc3" class="bulleted-list"><li style="list-style-type:disc">If you have a separate class for iPhone, Samsung and vivo then you can group them together to create a <mark class="highlight-red">super class</mark>.</li></ul><ul id="0b915c70-9026-4ce7-9a27-51298316f546" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">Generalization </mark>is achieved using<mark class="highlight-red"> Interfaces</mark>.</li></ul><p id="1e1fe6d9-c5f1-4e56-b9da-d9581014928b" class="">Specialization:</p><figure id="be88242b-8c34-4b2d-aaca-a205f4b13fb9" class="image" style="text-align:left"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture11.png"><img style="width:576px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture11.png"/></a></figure><ul id="e925aa44-de0d-4b2d-94c6-db642d9612c1" class="bulleted-list"><li style="list-style-type:disc">The iPhone X was already there, and iPhone XS was introduced a year after so the definition here is<mark class="highlight-red"> top to bottom</mark>.</li></ul><ul id="b1138b06-cabb-4cc9-b656-43e59b50f27e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">Specialization</mark> is achieved using <mark class="highlight-red">Inheritance</mark>.</li></ul><p id="e41191b1-0a88-4a22-99c4-886f7df2565c" class=""><mark class="highlight-red">Abstract classes</mark> are used when you need to use <mark class="highlight-red">both generalization and specialization</mark>.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><span style="border-bottom:0.05em solid">Inheritance:</span></summary><div class="indented"><ul id="915ccb5b-d5ed-4712-831c-5cb04977356b" class="bulleted-list"><li style="list-style-type:disc">Definition: <mark class="highlight-red">it’s the process of acquiring the features of an existing class to a new class</mark>.</li></ul><ul id="64148059-51b4-411f-8710-14a56e22364f" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue">Extends </mark>keyword is used to inherit from another class.</li></ul><p id="7f1fb08d-294d-4729-aeda-588c081dfb4a" class="">Example: <mark class="highlight-blue">class </mark><mark class="highlight-yellow">cylinder </mark><mark class="highlight-blue">extends </mark><mark class="highlight-yellow">circle</mark></p><div id="89100a65-d4bd-464d-be1d-782e9eca737d" class="column-list"><div id="9e75a7eb-911f-42a5-9760-91bea9d8e932" style="width:31.25%" class="column"><figure id="78c1e25d-2807-48f0-afd9-5eeb6e75cc2d" class="image" style="text-align:left"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture12.png"><img style="width:336px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture12.png"/></a></figure><ul id="9f0f8044-b2e4-4c51-98da-7594a9aae393" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue">Class </mark><mark class="highlight-yellow">cylinder </mark>→ subclass, <mark class="highlight-blue">class </mark><mark class="highlight-yellow">circle </mark>→ superclass</li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Dynamic Method Dispatch</summary><div class="indented"><ul id="6ad2c043-b671-49bf-8e3d-944eeef6e396" class="bulleted-list"><li style="list-style-type:disc">Example:</li></ul><figure id="4d85c907-6d76-48aa-a3a8-899dd32b680d" class="image"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture15.png"><img style="width:684px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture15.png"/></a></figure></div></details></div><div id="50c60827-b686-4593-a557-21d31a0fd2bb" style="width:68.75%" class="column"><figure id="61255a49-18ff-4426-85ec-a9b134cbeec8" class="image"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture13.png"><img style="width:336px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture13.png"/></a></figure><p id="35c6ff95-a036-43dd-b9a7-02871ed812bf" class="">
+</p></div></div><ul id="9fc562f8-c348-4eb3-8d3c-5b313e53efe6" class="bulleted-list"><li style="list-style-type:disc">Explanation: Car c = new LuxaryCar(); à Dynamic Method Dispatch</li></ul><ul id="3b56b1a0-dc0a-41f2-bca8-90cb3cdd1eb1" class="bulleted-list"><li style="list-style-type:disc">The<mark class="highlight-red"> methods in super class and the overriding methods</mark> in the subclass <mark class="highlight-red">can be called</mark>.</li></ul><ul id="2994551e-1b15-4115-bf62-d7f512cf4168" class="bulleted-list"><li style="list-style-type:disc">But the methods which are <mark class="highlight-red">unique to sub class cannot be called</mark>.</li></ul><ul id="9e233fbb-5719-4f1a-9391-f9f8b1ab852a" class="bulleted-list"><li style="list-style-type:disc">When changeGear() is called, the output will display based on the object created (output: automatic gear).</li></ul><p id="b2e597c7-5f06-41c3-8cba-efa121f4e406" class=""><span style="border-bottom:0.05em solid">Points to remember for DMD:</span></p><ul id="44536f67-f64c-4c8d-b331-142ffe8855bd" class="bulleted-list"><li style="list-style-type:disc">DMD is useful for achieving run time polymorphism using method overriding.</li></ul><ul id="9a166e24-979d-49be-9e11-e34e759c8c6b" class="bulleted-list"><li style="list-style-type:disc">The methods that are called using the reference variable depends on the super class.</li></ul><ul id="61dfd0ff-d7bc-480c-8654-85f186603881" class="bulleted-list"><li style="list-style-type:disc">Which means only super class methods can be accessed by the variable and if a sub class have an overriding method, then it is accessible as well.</li></ul><ul id="1166c1d6-1665-4ac2-986f-54bd7b34e3e8" class="bulleted-list"><li style="list-style-type:disc">But the methods which are unique in the sub class cannot be accessed by the reference variable of super class.</li></ul><figure id="55e228cd-8468-412c-b356-604ef0164576" class="image"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Screenshot_2024-02-13_181917.png"><img style="width:480px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Screenshot_2024-02-13_181917.png"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><span style="border-bottom:0.05em solid">Method Overriding</span></summary><div class="indented"><p id="1858233e-3e45-40f4-adb8-970515236b6e" class=""><mark class="highlight-red">Method Overriding can also be done using Dynamic Method Dispatch.</mark></p><ul id="66ef72f0-de36-4f5d-9d05-6319f3bdbb3e" class="bulleted-list"><li style="list-style-type:disc">Definition: It is redefining the method of super class in subclass</li></ul><ul id="ec7d907d-75f5-453d-8a24-bfd9fb88f08e" class="bulleted-list"><li style="list-style-type:disc">Example: superclass reference name and subclass object name</li></ul><figure id="eac8b4db-2d21-4a3e-8a75-a00e4211756b" class="image"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture14.png"><img style="width:384px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture14.png"/></a></figure><ul id="bd81f702-ad8a-4e2f-9a4c-3d27a3657afa" class="bulleted-list"><li style="list-style-type:disc">Super su =  new Sub() → this line is called as <mark class="highlight-red">Dynamic Method Dispatch.</mark></li></ul><ul id="6d7e7fe1-0ca5-428a-b30b-b783f618cf5e" class="bulleted-list"><li style="list-style-type:disc">The method will be called depending upon the object not by the reference, hence su.display() will return “Hello welcome”.</li></ul><ul id="0c5da1a8-8970-4ebf-aba9-adce1d719933" class="bulleted-list"><li style="list-style-type:disc">while using DMD only <mark class="highlight-red">super class methods, overriding methods</mark> can be called. The <mark class="highlight-red">unique methods of subclass cannot be called</mark>.</li></ul><ul id="833acb8e-6292-483f-80dc-76eb14ec0b73" class="bulleted-list"><li style="list-style-type:disc">This is possible but using a sub class for creating a reference and super for creating an object is not possible.</li></ul><ul id="2afa7e95-ecb9-48ff-9892-5e1be7c9e0ab" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">Super su =  new Sub()</mark> is possible, but<mark class="highlight-red"> Sub su = new Super()</mark> is not possible .</li></ul><p id="b44e96ca-6cc1-4758-a7ba-0312da60c9da" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Do’s and Don’ts when overriding</summary><div class="indented"><ul id="8c242af6-b7e1-4ab0-9512-f50d006254fc" class="bulleted-list"><li style="list-style-type:disc">Both the signature should match everything, the datatype of arguments , the return type and all.</li></ul><ul id="22efec5d-681e-425d-833e-41071d9b16d0" class="bulleted-list"><li style="list-style-type:disc">The access modifier of the <mark class="highlight-red">subclass can be protected or public</mark>, it<mark class="highlight-red"> cannot be private</mark> when <mark class="highlight-red">super class is public</mark>.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Polymorphism in overriding and overloading</summary><div class="indented"><ul id="d7fc0639-4b43-4d67-b405-c6ca7f81b596" class="bulleted-list"><li style="list-style-type:disc">Polymorphism means à one name different actions.</li></ul><ul id="8ead80bb-b26d-4d2d-957b-0f171a2a31b8" class="bulleted-list"><li style="list-style-type:disc">Poly à many, morphism à forms</li></ul><ul id="088e5719-1f3f-4e85-9c5d-678240b665c3" class="bulleted-list"><li style="list-style-type:disc">Polymorphism in overloading can be achieved in the same class.</li></ul><ul id="3a6ed88a-9c91-4a23-83b3-7aac28afc258" class="bulleted-list"><li style="list-style-type:disc">Polymorphism in overriding can be achieved using inheritance.</li></ul><p id="ee104187-15be-47db-9c0e-02f77fc76869" class="">Example:<div class="indented"><figure id="bc44063d-5ab8-47d2-b861-7418db9259cd" class="image"><a href="Inheritance%20431e2775093445f6982bcce866593c3e/Picture16.png"><img style="width:720px" src="Inheritance%20431e2775093445f6982bcce866593c3e/Picture16.png"/></a><figcaption>used for compile time polymorphism                                                                     used for run time polymorphism</figcaption></figure><p id="c89f8632-ca1b-4b5d-b923-b058bb4b4ab5" class="">
+</p></div></p><p id="c9303b6d-26c4-41ec-afa6-405c7b582a5f" class="">
+</p></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

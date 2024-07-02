@@ -1,0 +1,742 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Exception handling</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1177359e-3c6a-4b74-b846-e2687b3a99f1" class="page serif"><header><div class="page-header-icon undefined"><span class="icon">📂</span></div><h1 class="page-title">Exception handling</h1><p class="page-description"></p></header><div class="page-body"><nav id="2a7031f8-adf8-4685-aadf-da680f4fd117" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b1556c4f-9723-41cf-a60b-39e9f65dbb78"><mark class="highlight-orange">Syntax Error</mark></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3d856fc2-243f-444b-9bb2-2a68806db640"><mark class="highlight-orange">Logical Error</mark> </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ec600cc8-3fa1-4b6b-885d-c8846de88462"><mark class="highlight-orange">Runtime Error</mark> </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0f126b3c-2d06-45fc-b1dd-49fe1e7ce3b2">Try , Catch and Finally block</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#697bf87f-acde-4e60-bc21-2cb00f92d61f">Exception</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e96cbbaf-20e5-49d9-84b3-a3361c02fd1d">Throw vs Throws </a></div></nav><ul id="36151167-8e47-46f4-b307-65fee7c41b45" class="bulleted-list"><li style="list-style-type:disc">Exception are <mark class="highlight-red">run time errors </mark>and they are occured by the <mark class="highlight-red">user.</mark></li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-orange">Syntax Error</mark></summary><div class="indented"><ul id="7e255362-7f58-49b3-b2d9-c1d5ca7ff9a7" class="bulleted-list"><li style="list-style-type:disc">they are done by<mark class="highlight-red"> programmers</mark> </li></ul><ul id="9aae0870-80ce-43b5-bd81-9ac5a9eab0bd" class="bulleted-list"><li style="list-style-type:disc">this error can be identified by the<mark class="highlight-red"> compiler.</mark></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-orange">Logical Error</mark> </summary><div class="indented"><ul id="191ac29c-6493-45ef-8eda-248dfc7ffc50" class="bulleted-list"><li style="list-style-type:disc">are done by<mark class="highlight-red"> programmers</mark> </li></ul><ul id="2bda9d4e-7a10-4b11-803d-60dea9a4184f" class="bulleted-list"><li style="list-style-type:disc">this error runs the entire program without any error but<mark class="highlight-red"> does not give expected ouput</mark> (very difficult to solve), </li></ul><ul id="69d24175-fe92-4328-acb4-657fc40b8852" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">tracing method or debugger</mark> is used to identify the error.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-orange">Runtime Error</mark> </summary><div class="indented"><ul id="ea2c319f-3bc9-40de-a517-cdc6b4d1206a" class="bulleted-list"><li style="list-style-type:disc">they are done by <mark class="highlight-red">users.</mark></li></ul><ul id="babc65f0-97f8-440e-94fc-ecc10c247190" class="bulleted-list"><li style="list-style-type:disc"> they are also called as<mark class="highlight-red"> exception</mark> </li></ul><ul id="b2367d97-f955-4e44-95f2-15f5ba65d0ff" class="bulleted-list"><li style="list-style-type:disc"> when the user <mark class="highlight-red">mishandle the program or unavailability of input</mark> these errors are produced.</li></ul><ul id="b3dde301-270a-4959-a332-7bd99c974f8f" class="bulleted-list"><li style="list-style-type:disc"> (ex: age = -10)</li></ul><ul id="4467689e-c66c-4cbb-beb7-39e5c6b208cc" class="bulleted-list"><li style="list-style-type:disc">program will crash when run time error occurs , that’s why exception handling is used.</li></ul><p id="78e8e5a4-e281-4639-bfd2-be67c0a27fd8" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Try , Catch and Finally block</summary><div class="indented"><ul id="57a1d589-f616-4f61-8703-b6f90ba4ec82" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">try and catch</mark> block are used to return the error in more <mark class="highlight-red">user friendly way</mark>.</li></ul><ul id="85bb6e73-2f0c-4959-8bcf-cab1fb311cc6" class="bulleted-list"><li style="list-style-type:disc">if two catch block are used then then the <mark class="highlight-red">1st catch block should be a sub-class exception</mark> and the <mark class="highlight-red">2nd catch block should be a super class of the sub-class exception</mark>.  </li></ul><ul id="fcddec5a-2fce-47f4-b460-8aaed73db776" class="bulleted-list"><li style="list-style-type:disc">nested try and catch can also be used.<figure id="90a9141d-716a-4201-90ba-b7ee72d678ec" class="image"><a href="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_082347.png"><img style="width:528px" src="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_082347.png"/></a></figure></li></ul><ul id="ae5cf1c3-fcab-435b-b260-df5de82f69b9" class="bulleted-list"><li style="list-style-type:disc">finally block is used at the<mark class="highlight-red"> end of the try -catch block </mark>and it is <mark class="highlight-red">optional</mark>.</li></ul><ul id="1d1d1c04-b50f-4e25-8af0-5c82eb309ae3" class="bulleted-list"><li style="list-style-type:disc">the finally block will execute<mark class="highlight-red"> no matter what</mark>, so mostly it is used for <mark class="highlight-red">clean up process</mark>.</li></ul><ul id="962216dd-abba-402b-929a-69756a8a05af" class="bulleted-list"><li style="list-style-type:disc">if a try block has a return statement and finally block is also there, then before returning anything it will execute the finally block and then it will return.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e80e0bdc-693a-497b-84fb-1d17b4d51e0c" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">public class Example {
+    public static void main(String[] args) {
+        System.out.println(divide(10, 2));
+        System.out.println(divide(10, 0));
+    }
+
+    public static int divide(int a, int b) {
+        try {
+            return a / b; // Division by zero will throw an ArithmeticException
+        } finally {
+            System.out.println(&quot;Finally block executed.&quot;);
+        }
+    }
+}
+</code></pre><p id="428c49c0-4a95-4b1d-8919-7d3b52dda5dd" class="">Output:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4df982fb-87fc-44d9-a2ba-e9b95c436d66" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">5 --&gt; for the first input
+Finally block executed. --&gt;second input
+Exception in thread &quot;main&quot; java.lang.ArithmeticException: / by zero
+    at Example.divide(Example.java:10)
+    at Example.main(Example.java:4)
+</code></pre><p id="d29553b0-5df0-48bb-bdd8-ec4ee8bfabfa" class="">In this example, the <code>divide()</code> method attempts to perform division <code>a / b</code>. In the first call to <code>divide(10, 2)</code>, the division is successful, and the result <code>5</code> is returned. In the second call to <code>divide(10, 0)</code>, an <code>ArithmeticException</code> is thrown due to division by zero.</p><p id="878873a1-f44d-46a4-bf6f-6d07942e90f4" class="">Regardless of the exception, the <code>finally</code> block is always executed. In this case, the message &quot;Finally block executed.&quot; is printed to the console.</p><p id="38920893-a5b5-43be-bb99-59621a3d8528" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Exception</summary><div class="indented"><ul id="62df2cfd-1fee-4a05-bf29-4af2e58400d9" class="bulleted-list"><li style="list-style-type:disc">there are two types of exception<ol type="1" id="a2e4b85b-8e6d-4084-91f5-fa809c9daba7" class="numbered-list" start="1"><li>checked → java will force you to handle the error</li></ol><ol type="1" id="97f29dcd-409c-4cd7-96a0-a73a5d9c8c0a" class="numbered-list" start="2"><li>unchecked → java won’t force you to handle that error<figure id="5c033a9d-85a5-4fbe-add5-dc54a09cf007" class="image"><a href="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_084459.png"><img style="width:528px" src="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_084459.png"/></a></figure></li></ol></li></ul><ul id="19bfa657-eacb-4f3b-8422-6642136498a9" class="bulleted-list"><li style="list-style-type:disc">the 1st catch block<mark class="highlight-red">(sub-class</mark>) in the above example will only get triggerd when there is <mark class="highlight-red">Arithmetic Exception error</mark>.</li></ul><ul id="9f80d2e0-8929-47d4-9765-9ff161582e49" class="bulleted-list"><li style="list-style-type:disc">the 2nd catch block (<mark class="highlight-red">super class</mark>) will handle <mark class="highlight-red">all the exception</mark> that’s why it is given<mark class="highlight-red"> below the first catch block</mark>.</li></ul><ul id="25889679-b5a6-49f9-87e8-934beb13afc6" class="bulleted-list"><li style="list-style-type:disc">if the 2nd catch block switched with the 1st one then the 2nd catch block won’t execute at all.<figure id="eaefe7e6-3070-4852-8ae3-d37a516e00f2" class="image"><a href="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_085159.png"><img style="width:240px" src="Exception%20handling%201177359e3c6a4b74b846e2687b3a99f1/Screenshot_2024-02-15_085159.png"/></a></figure></li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Exception class</summary><div class="indented"><p id="99a82ff8-4ba5-4c72-9358-4ec7eb06a896" class="">The <code>Exception</code> class is the superclass of all exception types in Java. It provides methods and properties to handle and manipulate exceptions.</p><ul id="433bec00-797f-4f45-a150-2f18a545f018" class="bulleted-list"><li style="list-style-type:disc"><code>getMessage()</code>: This method returns a string that describes the exception. It can be used to retrieve the error message associated with the exception.</li></ul><ul id="214bfc40-e338-4917-9d80-2b95fb5a822a" class="bulleted-list"><li style="list-style-type:disc"><code>toString()</code>: This method returns a string representation of the exception object. It includes the class name, the error message, and the stack trace of the exception.</li></ul><ul id="e699fdee-2b5a-4e32-a5e6-016b4004b935" class="bulleted-list"><li style="list-style-type:disc"><code>printStackTrace()</code>: This method prints the stack trace of the exception to the standard error stream. It provides detailed information about the sequence of method calls that led to the exception.</li></ul><p id="62229c98-38b4-40fc-9dc9-1f3281e8ce05" class="">Here is an example that demonstrates the usage of these methods:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bd08039c-7cfb-4e3c-afc6-d2761b9d1431" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">try {
+    int result = 10 / 0; // This will throw an ArithmeticException
+} catch (ArithmeticException e) {
+    System.out.println(&quot;Error message: &quot; + e.getMessage());
+    System.out.println(&quot;String representation: &quot; + e.toString());
+    System.out.println(&quot;Stack trace:&quot;);
+    e.printStackTrace();
+}
+</code></pre><p id="83c0dc28-72ef-438c-86e2-9d2550904e31" class="">Output:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8e756ba7-c554-4ddd-9c80-d198470bdb07" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Error message: / by zero
+String representation: java.lang.ArithmeticException: / by zero
+Stack trace:
+java.lang.ArithmeticException: / by zero
+    at MyClass.main(MyClass.java:6)
+</code></pre><p id="72ae2f8b-02fa-425f-a43e-e0c6fe897465" class="">In this example, an <code>ArithmeticException</code> is thrown when dividing by zero. The <code>getMessage()</code> method retrieves the error message &quot;/ by zero&quot;. The <code>toString()</code> method returns the string representation of the exception. Finally, the <code>printStackTrace()</code> method prints the stack trace, showing the line number and class name where the exception occurred.</p><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">own exception class can be created by extending exception class.</summary><div class="indented"><ul id="190c0ac6-8e07-4807-b2cb-df55128b032e" class="bulleted-list"><li style="list-style-type:disc"><em>example</em></li></ul><p id="3452044e-924f-4cec-8133-3da08f81f435" class="">Here is a simple example of creating your own exception class in Java:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="050deec4-e446-452b-97f8-3a300cb1ed9a" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">class MyCustomException extends Exception {
+    public MyCustomException(String message) {
+        super(message);
+    }
+}
+
+class MyClass {
+    public static void main(String[] args) {
+        try {
+            throw new MyCustomException(&quot;This is a custom exception&quot;); //to create an error intentionally throw new keyword is used
+        } catch (MyCustomException e) {
+            System.out.println(&quot;Caught custom exception: &quot; + e.getMessage());
+        }
+    }
+}
+</code></pre><p id="f02dfcd4-086e-4896-a6a3-ebdb2b1f8247" class="">In this example, we create a custom exception class called <code>MyCustomException</code> by extending the <code>Exception</code> class. The <code>MyCustomException</code> class has a constructor that takes a message as an argument, which is passed to the superclass constructor using the <code>super()</code> keyword.</p><p id="228667be-4e6d-48c0-826c-acf6bc987ff0" class="">In the <code>main()</code> method, we throw an instance of <code>MyCustomException</code> with a custom message. The exception is caught in a <code>catch</code> block specifically for <code>MyCustomException</code>, and the message is printed to the console.</p><p id="cf733d54-90c1-416c-8bc9-2f82cb2e61b1" class="">Output:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fda4997e-bca9-4515-877a-16d24b14ac79" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Caught custom exception: This is a custom exception
+</code></pre><p id="fca7e9a3-b210-4aaf-8b96-c83a52430549" class="">By creating your own exception class, you can define and handle custom exceptions that are specific to your program&#x27;s requirements.</p></div></details></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Throw vs Throws </summary><div class="indented"><p id="213b2ec6-87af-4d14-b01c-db52bbcb3933" class="">In Java, both <code>throw</code> and <code>throws</code> are used in exception handling, but they have different purposes.</p><h3 id="4675abf3-1c7f-40a6-8138-4d8db562c033" class=""><code>throw</code> Statement</h3><p id="e689bb86-28f4-48e8-afb6-ee6ba2515c50" class="">The <code>throw</code> statement is used to explicitly throw an exception in a Java program. It is followed by an instance of an exception class or an object that implements the <code>Throwable</code> interface.</p><p id="c0604b72-3b71-42e9-bdb6-026e09ea3c73" class="">Here is a simple example that demonstrates the usage of the <code>throw</code> statement:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="378de365-41fb-43a5-931c-9c6b3025f1b2" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">public class MyClass {
+    public static void main(String[] args) {
+        int age = -10;
+
+        if (age &lt; 0) {
+            throw new IllegalArgumentException(&quot;Age cannot be negative&quot;);
+        }
+    }
+}
+</code></pre><p id="6d1341d5-fd54-4e5e-a2ed-761f3964df18" class="">In this example, the <code>throw</code> statement is used to throw an <code>IllegalArgumentException</code> (built-in checked exception) if the <code>age</code> is less than zero. This is done to handle the invalid input and terminate the program execution.</p><h3 id="10956152-1a5c-4f34-8b06-e78404581eb3" class=""><code>throws</code> Clause</h3><p id="a693979b-9bf8-490b-b82c-aa4bca35b1c6" class="">The <code>throws</code> clause is used to declare that a method may throw one or more types of exceptions. It is used in the method signature, followed by the names of the exception classes separated by commas.</p><p id="7cdff1d1-4d64-4499-8f29-d8cb8f3d629d" class="">Here is an example that demonstrates the usage of the <code>throws</code> clause:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7a447db3-2c39-40b1-93fc-0f0fb313ad73" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">public class MyFileReader {
+    public void readFile(String filename) throws IOException {
+        // Code to read a file
+    }
+}
+</code></pre><p id="fc517e8c-8bc6-44b7-a90e-26e86005096d" class="">In this example, the <code>readFile</code> method may throw an <code>IOException</code> if there is an error while reading the file. By declaring <code>throws IOException</code> in the method signature, the caller of this method is aware that they need to handle or propagate this exception.</p><p id="f3bb0cb8-3d2c-445f-9767-244d33a902b6" class="">To handle the exception thrown by a method with a <code>throws</code> clause, the caller can use a <code>try-catch</code> block or declare the exception using <code>throws</code> in its own method signature.</p><p id="a896810b-ca79-45aa-94a9-98cf739e7f96" class=""><mark class="highlight-red_background">Overall, the </mark><mark class="highlight-red_background"><code>throw</code></mark><mark class="highlight-red_background"> statement is used to manually throw an exception, while the </mark><mark class="highlight-red_background"><code>throws</code></mark><mark class="highlight-red_background"> clause is used to declare that a method may throw an exception and to specify the type of exception that can be thrown.</mark></p><p id="40b58366-505d-4143-9e80-157beba84a2e" class="">
+</p></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

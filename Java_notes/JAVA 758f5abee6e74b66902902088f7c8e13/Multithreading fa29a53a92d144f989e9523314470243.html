@@ -1,0 +1,702 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Multithreading</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fa29a53a-92d1-44f9-89e9-523314470243" class="page serif"><header><div class="page-header-icon undefined"><span class="icon">📂</span></div><h1 class="page-title">Multithreading</h1><p class="page-description"></p></header><div class="page-body"><nav id="33706640-6f9a-4b4b-9979-8580da77b9db" class="block-color-purple table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4ecdb352-d142-4da1-b94e-b2ab140702ca">Multiprogramming</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#eb63e68e-873c-48c2-bb5f-f4797b7d37d3">Multiuser</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5baaf010-8968-420b-8890-005157c0bc80">Multitasking</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4bfdf193-bfe7-46f4-a0aa-bd9801b2ccc1">Multithreading</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#df92b190-a04f-45e0-8f5f-ea54f8a5c383">Control Flow of a program</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3ff781ca-03be-4d65-8282-ca2e371af6cd">Multithreading using Thread class and runnable interface</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#fe6bafd2-a929-4ac4-9bbd-91a901adb7c4">States of Thread</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#49c09d11-3875-4123-b511-8dcd7deb1d96">Thread priorities</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#43b61172-5f79-4465-bd42-b005712a2013">Thread Class (constructors, methods….)</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1bfe2e7e-e24f-491b-9bfb-9a47691a9b60">Synchronization</a></div></nav><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Multiprogramming</summary><div class="indented"><ul id="dcc88b4d-e7f0-42b2-b386-74d1ffabe616" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">running multiple program in a single machine</mark> is know as multiprogramming.</li></ul><ul id="9e1d8aba-6bb5-4dbf-ba10-1b4705e05403" class="bulleted-list"><li style="list-style-type:disc">there are different forms of multiprogramming<ol type="1" id="718f0eb4-35b8-48eb-8964-9be1939d23c5" class="numbered-list" start="1"><li>Multiuser → more than 1 user will be using the machine simultaneously.</li></ol><ol type="1" id="a663f352-a689-4567-ba73-b3b3c4605d07" class="numbered-list" start="2"><li>Multitasking → only 1 user can handle multiple task simultaneously<ul id="6b0ac342-0f9e-4a43-9ff3-b623594f8dea" class="bulleted-list"><li style="list-style-type:disc">multithreading → this is a type of multitasking , and ofcourse this is for single user</li></ul></li></ol><p id="876cdc77-5c51-4863-812d-65bba9251414" class="">
+</p></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Multiuser</summary><div class="indented"><ul id="474b9836-44a9-4e57-bbf7-d041d629ec1b" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">this is method is old</mark></li></ul><ul id="4554667b-8812-4a5f-a144-c635c7a4d091" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">unix or linux</mark> system is used.</li></ul><ul id="32146c5f-fd20-48dd-9004-4fb0bca99720" class="bulleted-list"><li style="list-style-type:disc">more than one user can connect and work on a machine.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Multitasking</summary><div class="indented"><ul id="c2ae8755-4f85-46d3-b59c-89944b78bbcb" class="bulleted-list"><li style="list-style-type:disc">doing more than <mark class="highlight-red">one task at the same time</mark> is known as multitasking.</li></ul><ul id="0aae7647-fed0-454b-8894-c2fa4520fb40" class="bulleted-list"><li style="list-style-type:disc">in other words,<mark class="highlight-red"> running more than  1 program is called multitasking</mark>.</li></ul><ul id="3731f593-7e12-452b-8078-230838179d42" class="bulleted-list"><li style="list-style-type:disc">example: a windows or macos can have <mark class="highlight-red">msword, a chrome page</mark> opened at the same time.</li></ul><ul id="13cf4912-57fb-4458-8bc7-4caac2dad3a6" class="bulleted-list"><li style="list-style-type:disc">windows and macos are multitasking operating system.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Multithreading</summary><div class="indented"><ul id="ebb891b9-afbf-4c69-b59e-40aaec2e110a" class="bulleted-list"><li style="list-style-type:disc">example: a chrome page can run a<mark class="highlight-red"> video, an ad and comments.</mark></li></ul><ul id="0632d38e-9934-49af-9fea-28c2e8823eba" class="bulleted-list"><li style="list-style-type:disc">so three things that are running in a single application, when they are running in a single application they are called threads.</li></ul><ul id="d80ecc4a-e91d-4b85-811c-395421952439" class="bulleted-list"><li style="list-style-type:disc">example2: mutiple threads in a single application(multiplayer game, webserver).</li></ul><ul id="48b82001-7583-4e6a-983c-cd5935ece300" class="bulleted-list"><li style="list-style-type:disc">but in pratical these threads <mark class="highlight-red">wont run simultaneously</mark>, infact  the cpu will execute the<mark class="highlight-red"> threads alternatively</mark>, giving user the <mark class="highlight-red">feel of running simultaneously</mark>.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Control Flow of a program</summary><div class="indented"><ul id="83a4c50b-bc87-45d8-8ff3-985136432e8c" class="bulleted-list"><li style="list-style-type:disc">one java program will have one control flow.<figure id="5ae99fb3-e5d1-41b2-b1f4-7c7a6f9e918f" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_102656.png"><img style="width:288px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_102656.png"/></a></figure></li></ul><ul id="cca6364d-c97c-4751-8807-561ee2ad6397" class="bulleted-list"><li style="list-style-type:disc">that is the order in which the statements are executed.</li></ul><ul id="f76743e9-4012-4b30-914f-908de0f4998c" class="bulleted-list"><li style="list-style-type:disc">this is single control flow that is executing the program.</li></ul><ul id="85de8c09-05c5-487e-9844-c6fa8dcf0f2c" class="bulleted-list"><li style="list-style-type:disc">this program is called single control programm or single/main threader.</li></ul><ul id="e4cefb33-0b25-4956-86b4-ae1b5fb58800" class="bulleted-list"><li style="list-style-type:disc">but in mutltithreading means → runnign more than 1 threads  at the same time</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Multithreading using Thread class and runnable interface</summary><div class="indented"><figure id="f1f4e0ac-80f0-4d53-80c5-e7113ff551f3" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_104423.png"><img style="width:288px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_104423.png"/></a></figure><ul id="1938f4ef-a3dc-410b-a70b-fae6a36585b3" class="bulleted-list"><li style="list-style-type:disc">there are<mark class="highlight-red"> two infinite loops</mark> in the program </li></ul><ul id="f5cd05cd-fae9-4841-9136-1a22c2d16449" class="bulleted-list"><li style="list-style-type:disc">once the control goes to the display method, then the rest of the code in the main program<mark class="highlight-red"> wont execute</mark>.</li></ul><ul id="c75895c8-de9f-462e-8ace-08153242be99" class="bulleted-list"><li style="list-style-type:disc">so we need a <mark class="highlight-red">two control program</mark> , one for the <mark class="highlight-red">main method</mark> and another for <mark class="highlight-red">display method</mark></li></ul><ul id="34ab0d15-8617-4582-b070-7d4de9c44dae" class="bulleted-list"><li style="list-style-type:disc">so that both the output can be printed at the same time(<mark class="highlight-red">hello</mark> will print a couple of times, then <mark class="highlight-red">world</mark> will print couple of time and <mark class="highlight-red">repeat</mark>).</li></ul><ul id="75a90913-cccb-4c31-89cd-34568a33ddee" class="bulleted-list"><li style="list-style-type:disc">this can be done using the built-in thread class or runnable interface, but the actual mechanism for running multithreading is present in thread class.</li></ul><ul id="819882c7-2df9-4f04-9694-b102ddffbac2" class="bulleted-list"><li style="list-style-type:disc">so when using runnable interface, thread class must be invoked as well.</li></ul><ul id="3c52ae03-f844-40a6-bf29-2745e5ffa497" class="bulleted-list"><li style="list-style-type:disc">situation 1: if your class need multithreading, then thread class can be inherited(ie. <mark class="highlight-blue">extends threads</mark>)</li></ul><ul id="546d34d0-0f8f-464f-801c-1e0f15ce2638" class="bulleted-list"><li style="list-style-type:disc">situation 2: if your class need multithreading but it is a sub class then it can use runnable interface (ie. <mark class="highlight-blue">implement</mark>)</li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">using thread class</summary><div class="indented"><ul id="38e7cd79-80d0-4508-825e-41b3cbc17dd5" class="bulleted-list"><li style="list-style-type:disc">whenever thread class is extended for a class, then implement your code in a method and <mark class="highlight-red">name the method as </mark><mark class="highlight-yellow">run</mark>.</li></ul><ul id="5049701d-9c36-404d-8086-2b327f7b243e" class="bulleted-list"><li style="list-style-type:disc">because<mark class="highlight-red"> run method has to be overrided</mark> inorder to achieve multithreading.</li></ul><ul id="5afbf862-18f3-4ad1-bdef-6dce8a8b7594" class="bulleted-list"><li style="list-style-type:disc">signature line has to be <mark class="highlight-blue">public void</mark> <mark class="highlight-yellow">run</mark>().</li></ul><ul id="8981084c-503a-4c58-b27d-e59c0e498720" class="bulleted-list"><li style="list-style-type:disc">Main is the starting point of a program, like that run is the starting point of a thread.</li></ul><ul id="b0e7bc45-a4fb-42a3-a2e6-c1177c47cda7" class="bulleted-list"><li style="list-style-type:disc">create a object and reference of the extended thread class that you created</li></ul><ul id="9d41ec64-2250-43ae-a4ab-698f81e069ad" class="bulleted-list"><li style="list-style-type:disc">to run that thread you should’nt call run method, start method is called.</li></ul><ul id="26b95d16-589f-4486-8efc-5be986fdba5a" class="bulleted-list"><li style="list-style-type:disc">example: two class</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23e54708-4cc1-46ec-93fe-aead3838a336" class="code"><code class="language-Java" style="white-space:pre-wrap;word-break:break-all">class MainThread extends Thread {
+    public void run() {
+        while (true) {
+            System.out.println(&quot;Hello&quot;);
+        }
+    }
+}
+
+public class MultithreadingExample {
+    public static void main(String[] args) {
+        MainThread thread = new MainThread();
+        thread.start();
+
+        while (true) {
+            System.out.println(&quot;World&quot;);
+        }
+    }
+}
+</code></pre><ul id="ce108b84-9bca-4681-82a9-53aa5f87e764" class="bulleted-list"><li style="list-style-type:disc">instead of calling the run method , start method is called to run the<mark class="highlight-red"> run method inside MainThread class.</mark></li></ul><ul id="c7c1f342-4bf4-467e-a6d0-35b3e99bfefe" class="bulleted-list"><li style="list-style-type:disc">the start method will also create the second control flow for the program.</li></ul><ul id="2553569e-cbe8-42b1-ad38-f695fcce0068" class="bulleted-list"><li style="list-style-type:disc">the output of the code will be the mixture of<mark class="highlight-red"> hello</mark> and <mark class="highlight-red">world</mark>, which means <mark class="highlight-red">hello will print n times(10 or 20)</mark> then <mark class="highlight-red">world will be printed n times(10 or 20)</mark> and this will repeat</li></ul><ul id="faa461bf-d2db-4edb-805a-4d5c46d9af3c" class="bulleted-list"><li style="list-style-type:disc">example 2: with one class<figure id="93995a4b-f12c-436b-a07f-210bdf475404" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_113132.png"><img style="width:288px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_113132.png"/></a></figure><p id="da2b51a9-cc70-43c0-8f66-8de83dc40535" class="">
+</p></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Using runnable interface</summary><div class="indented"><ul id="2ce26560-6e41-4b90-88a3-6eaa3801e588" class="bulleted-list"><li style="list-style-type:disc">whenever an interface is implemented all the methods in that interface should be<mark class="highlight-red"> overrided in the inherited class</mark> </li></ul><ul id="ffe033a1-e290-4f28-9966-b76ba8a48bdc" class="bulleted-list"><li style="list-style-type:disc">other wise the inherited class become an <mark class="highlight-red">abstract class.</mark></li></ul><ul id="5f9cba7e-7307-4772-9799-af2d8fc76cad" class="bulleted-list"><li style="list-style-type:disc">so the methods in the runnable is<mark class="highlight-yellow"> run()</mark>, there is<mark class="highlight-red"> only one method</mark> in the runnable interface.</li></ul><ul id="d07215b3-7d88-4dc8-8ad1-6a4e0761fedc" class="bulleted-list"><li style="list-style-type:disc">runnable interface is <mark class="highlight-red">capable of running</mark> multithreading but it cannot run on its own.</li></ul><ul id="04171abd-efd4-4016-88a4-561004f0a956" class="bulleted-list"><li style="list-style-type:disc">so that’s why, <mark class="highlight-red">while using the runnable interface, the reference variable of the interface class must be passed in the object</mark> <mark class="highlight-red">of the thread class</mark>.</li></ul><ul id="d75de6f8-3c8a-4eeb-8124-80ba4c90e399" class="bulleted-list"><li style="list-style-type:disc">example<figure id="e13ec0f4-201c-402d-a5ce-36f9794ff5a3" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_132302.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_132302.png"/></a></figure></li></ul><ul id="a9b966b1-4bde-44b6-abcb-656771ba4f37" class="bulleted-list"><li style="list-style-type:disc">this is like a horse(t) with cart(m) attached to it.</li></ul><ul id="9d2a4458-2948-461e-8906-6355b57dd558" class="bulleted-list"><li style="list-style-type:disc">when<mark class="highlight-yellow"> t.start</mark> is genreated it will<mark class="highlight-red"> start the the thread object</mark> which has the multithreading mechanism, and with that the <mark class="highlight-red">runnable object </mark>is attached.</li></ul><ul id="0ae07a93-b470-4841-919d-7b659b222229" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">so t.start will execute the run method of the object attached to it.</mark></li></ul><ul id="1f747b3f-4174-4e75-8179-83263c7897e6" class="bulleted-list"><li style="list-style-type:disc"></li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">States of Thread</summary><div class="indented"><ul id="e7b103cf-dd27-44da-b70a-ba901fc3dc00" class="bulleted-list"><li style="list-style-type:disc">once a thread is terminated it <mark class="highlight-red">cannot be restarted</mark>, only new thread can be started.</li></ul><ul id="dcaa29a1-aa68-4ad4-8c0c-ce776f1cce9d" class="bulleted-list"><li style="list-style-type:disc">while running there are three states<ol type="1" id="797676cc-8616-4c20-ac4b-863979a1dab7" class="numbered-list" start="1"><li><mark class="highlight-red">timed wait state</mark>→ we can make the thread wait for few milliseconds and continue (eg: car slowed animation)</li></ol><ol type="1" id="71802bfb-62e5-4d7d-806d-7fea0aedebca" class="numbered-list" start="2"><li><mark class="highlight-red">wait state</mark> → we can make it wait and notify when the resource is accessible. </li></ol><ol type="1" id="ef4e4113-ed06-44e6-8bdb-87cdff2dc0da" class="numbered-list" start="3"><li><mark class="highlight-red">blocked state</mark> → when the resource is being used it will be in blocked state and no other thread can access it.(that’s why synchronization concept is used)</li></ol></li></ul><figure id="28336eea-ac2e-491a-93b0-e6a83b28f23e" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_181234.png"><img style="width:768px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_181234.png"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Thread priorities</summary><div class="indented"><ul id="f89286c7-09fc-49d1-a1bb-87ed95e846bb" class="bulleted-list"><li style="list-style-type:disc">example: there are 5 threads in a program they are in ready queue state and there is component in  JVM called <mark class="highlight-red">scheduler </mark>which will schedule the amount of time to run the thread using the CPU. All the thread will get<mark class="highlight-red"> equal amount of time</mark> of execution.</li></ul><ul id="5f657d33-cb71-490b-a6dd-85822a1b2a4e" class="bulleted-list"><li style="list-style-type:disc">java supports multiple thread priorities.</li></ul><ul id="99f5f1fe-236f-49b5-a74c-03890829b4a6" class="bulleted-list"><li style="list-style-type:disc">priority can be assigned to threads, so the thread with the most priority is executed first</li></ul><ul id="1465a230-60b7-439d-b67c-0c7ac6d9350e" class="bulleted-list"><li style="list-style-type:disc">thread.MIN_PRIORITY = 1</li></ul><ul id="0681b382-8608-4d31-9d9a-858551f68f7b" class="bulleted-list"><li style="list-style-type:disc">thread.NORM_PRIORITY = 5</li></ul><ul id="f3d88fdf-6e7e-4a69-96aa-67ee37dec70f" class="bulleted-list"><li style="list-style-type:disc">thread.MAX_PRIORITY = 10</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Thread Class (constructors, methods….)</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">constructor</summary><div class="indented"><ul id="e1dd4b9c-77b4-4092-8184-c468f6de3fd5" class="bulleted-list"><li style="list-style-type:disc">some of the constructors are given below<figure id="31e10064-caa6-4981-a812-0de1b505abfa" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_183812.png"><img style="width:384px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_183812.png"/></a></figure></li></ul><ul id="217ba888-8dce-4d48-96af-a938182ea990" class="bulleted-list"><li style="list-style-type:disc">group of threads can be created as well(eg. group of bubble animation can be slowed down if they are under the same group)</li></ul><p id="577f9529-22f3-4c94-bb3c-36620233d52e" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">getter/setter methods</summary><div class="indented"><figure id="5abf290d-c976-4bdc-b90c-d55fdd9d2e72" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_184217.png"><img style="width:432px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_184217.png"/></a></figure><ul id="85ba7ea7-67ef-46a8-b13f-827354f96dbb" class="bulleted-list"><li style="list-style-type:disc">daemon thread is a backgroud therad with least priority (eg: garbage collector in JVM)</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Enquiry Methods</summary><div class="indented"><ul id="859ae657-db3e-48ef-a34c-c0214aa37ac1" class="bulleted-list"><li style="list-style-type:disc">starts with the keyword <mark class="highlight-blue">is.</mark></li></ul><ul id="82c6067e-9762-4375-a64a-275d22eeeaf5" class="bulleted-list"><li style="list-style-type:disc">it will return either <mark class="highlight-blue">true</mark> or <mark class="highlight-blue">false</mark>.<figure id="fd3397d9-2493-484e-8135-87264313a615" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_184756.png"><img style="width:240px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_184756.png"/></a></figure></li></ul><ul id="bcb26fce-4b48-440f-a078-f27b645337b7" class="bulleted-list"><li style="list-style-type:disc">there is a method in thread called interrupt, used to <mark class="highlight-red">stop the thread and continue the rest of the work </mark>or <mark class="highlight-red">terminate it</mark>.</li></ul><ul id="158724be-1650-420f-aedf-a68009477caf" class="bulleted-list"><li style="list-style-type:disc">a thread can be interrupted by <mark class="highlight-red">some other thread</mark> as well or the <mark class="highlight-red">same thread</mark> itself.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Instance Method</summary><div class="indented"><figure id="06a550e9-b137-45d5-80eb-b2e0d15fdc3a" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_185124.png"><img style="width:240px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_185124.png"/></a></figure><ul id="c1eb915e-7c92-4cf5-a248-e02f5d4c8435" class="bulleted-list"><li style="list-style-type:disc">interrupt method can be used to interrupt the thread.</li></ul><ul id="78545cd6-ad6a-482e-94bd-a1e6b6f67b21" class="bulleted-list"><li style="list-style-type:disc">same thread can be interrupted using this method.</li></ul><ul id="0c2c8e27-0a4d-41ad-8f48-28ebe6b6301f" class="bulleted-list"><li style="list-style-type:disc">join method is used when one thread is completed, instead of terminating the thread this method will join it with the other thread and wait for other thread to complete.</li></ul><ul id="6da9ec9c-a0e8-4ea0-9653-672e84e5719c" class="bulleted-list"><li style="list-style-type:disc">timing can also be used to join with other thread as well.</li></ul><ul id="c1689341-33f3-418c-9d1a-f5878d989ab1" class="bulleted-list"><li style="list-style-type:disc">run method has to be overrided and start method initiates the run method.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Static Method</summary><div class="indented"><ul id="180f4027-b97c-4a6a-baa9-2d4d36e5dfe8" class="bulleted-list"><li style="list-style-type:disc">static method can be called just by using the class name.<figure id="343c437b-5234-4542-8d95-46720f5ccc64" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_185216.png"><img style="width:240px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-18_185216.png"/></a></figure></li></ul><ul id="734ab106-ddea-4e00-ae3b-a40baba5bd81" class="bulleted-list"><li style="list-style-type:disc">activecount will tell how many thread are active in a group.</li></ul><ul id="df354421-01f2-4ad1-b076-ea1e5acdded5" class="bulleted-list"><li style="list-style-type:disc">reference of the current thread can be obtained by using Thread currenThread()</li></ul><ul id="24dd10fd-e91e-4df4-b06d-0df598c2f3fa" class="bulleted-list"><li style="list-style-type:disc">yield() → if one thread has higher priority and another has lower priority, the lower priority thread may not have a chance to run(this is called starvation). Yield method is used to hold the higher priority for a while to run the lower priority thread.</li></ul><ul id="40e6db8f-afee-4703-9172-496747c3bda6" class="bulleted-list"><li style="list-style-type:disc">dumpstack method is used to get the depth of the method calls.</li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Synchronization</summary><div class="indented"><ul id="889e7622-0414-4a5c-bcd9-4a6f854f8e85" class="bulleted-list"><li style="list-style-type:disc">the cordination or understanding betweeen two entities or two process or two threads.</li></ul><ul id="71c67498-d659-456f-ba83-58c0962b14e1" class="bulleted-list"><li style="list-style-type:disc">some of the important topics in synchronization<figure id="8ce7b93f-0117-46b4-8a34-1980782edd37" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_102820.png"><img style="width:240px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_102820.png"/></a></figure></li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Resource sharing</summary><div class="indented"><ul id="25b74018-924d-4e62-bb7c-d681360f57de" class="bulleted-list"><li style="list-style-type:disc">more than one thread<mark class="highlight-red"> can access the same resource</mark> (resource: printer, file, server etc..)</li></ul><ul id="7d42879a-6799-4077-b8ef-e5f462e41286" class="bulleted-list"><li style="list-style-type:disc">the <mark class="highlight-red">objects are created in the heap</mark> and <mark class="highlight-red">thread will have their own stack memory space</mark></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Critical Section</summary><div class="indented"><ul id="cae5726f-1744-4501-bfab-99ccb5caa1c3" class="bulleted-list"><li style="list-style-type:disc">consider two program with 50 lines of code that are used to access a file.</li></ul><ul id="c9c59353-e95d-4830-9ca4-6eff5eadc68a" class="bulleted-list"><li style="list-style-type:disc">not all the 50 lines of code is meant for accessing the file.</li></ul><ul id="36d7c496-adc6-494b-98ec-d61db25387b2" class="bulleted-list"><li style="list-style-type:disc">so <mark class="highlight-red">the particular set of lines that is responsible for accessing the file in both the program</mark> are called <mark class="highlight-red">critical section</mark>.</li></ul><ul id="1c958647-1151-4eb9-a804-4d42112a3940" class="bulleted-list"><li style="list-style-type:disc">that section may cause problem so it is called <mark class="highlight-red">critical section of code</mark>.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Mutual Exclusion</summary><div class="indented"><ul id="5e762e13-65a0-490d-84e7-74b9abbf277e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red">Important topic</mark></li></ul><ul id="7349b9c0-a621-4d21-a1f1-06f8df03974e" class="bulleted-list"><li style="list-style-type:disc">if two thread are accessing a file, wheather the thread should access the file at the<mark class="highlight-red"> same time</mark> or <mark class="highlight-red">one after another</mark>?</li></ul><ul id="abd2f195-75dc-46ee-94bf-a0ff600aa9f3" class="bulleted-list"><li style="list-style-type:disc">the threads should<mark class="highlight-red"> access one after another</mark>, like one thread should <mark class="highlight-red">use the file and finish</mark>, after that second thread can use the file and finish. </li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">How to achieve multiple thread accessing the same file?</summary><div class="indented"><ul id="1bf4ac52-b513-4d25-89c8-bafa96285e7b" class="bulleted-list"><li style="list-style-type:disc">to achieve this there are<mark class="highlight-red"> two  way:</mark><ul id="1b33adac-1e62-4363-92f7-ce1b84a9a630" class="bulleted-list"><li style="list-style-type:circle">1st way → there has to be<mark class="highlight-red"> something that takes care of the file</mark>, that allows one thread at a time to access it, so <mark class="highlight-red">Locking/Mutex , Semaphore, Monitor</mark> will be used in this situaiton</li></ul><ul id="c124a717-2058-41d2-9db1-6a7239ef8808" class="bulleted-list"><li style="list-style-type:circle"> 2nd way → there is <mark class="highlight-red">something already there</mark>(1st way) but still <mark class="highlight-red">there will be coordination/communication</mark> between the threads, so <mark class="highlight-red">Race-Condition and Inter-Thread Communication</mark> is used this situation. </li></ul></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Locking/Mutex</summary><div class="indented"><ul id="88e2377f-5e19-424c-a652-612207935d0c" class="bulleted-list"><li style="list-style-type:disc">Locking/Mutex and semaphore were the methods used initialy(olden times), that are used to manage mulitple threads.</li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Process involved in Locking/Mutex</summary><div class="indented"><ul id="d4207e99-f2ee-4231-8e5b-ce8e4008bc94" class="bulleted-list"><li style="list-style-type:disc">In Locking/Mutex,<mark class="highlight-red"> Mutex is a variable</mark> that is equal to zero(Mutex = 0) which is <mark class="highlight-red">assigned to a file initially</mark> and it means the <mark class="highlight-red">file can be accessed</mark> by threads.</li></ul><ul id="32139684-be42-4d83-8f87-e1f1df1d22ff" class="bulleted-list"><li style="list-style-type:disc">consider two threads, <mark class="highlight-red">when thread1 starts to access it</mark> , it will<mark class="highlight-red"> lock the file</mark> by changing<mark class="highlight-red"> Mutex = 1</mark>.</li></ul><ul id="e82de8e5-95a1-4cd2-8406-05a52d28a131" class="bulleted-list"><li style="list-style-type:disc">Even when the<mark class="highlight-red"> time slice</mark>(alloted by the CPU)<mark class="highlight-red"> is gone for thread1</mark>,<mark class="highlight-red">  thread2 can’t access it, since it is locked by thread1</mark>.</li></ul><ul id="6c06e613-520b-4b1a-9733-7eed65b4a175" class="bulleted-list"><li style="list-style-type:disc">after <mark class="highlight-red">thread2 time slice is gone</mark>, thread1 will come again and access it and <mark class="highlight-red">untill thread1 finishes</mark> using the file<mark class="highlight-red"> thread2 can’t do anything </mark>in it’s <mark class="highlight-yellow">time slice</mark>.</li></ul><ul id="57c53eb7-e6bc-4327-bb05-65bf80950a71" class="bulleted-list"><li style="list-style-type:disc">once <mark class="highlight-red">thread1 finishes using the file it will make the Mutex=0</mark>.</li></ul><ul id="5f7c1350-fe00-4ab0-820a-8f541de21631" class="bulleted-list"><li style="list-style-type:disc">now the same process repeats for thread2.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">DrawBacks in Locking/Mutex</summary><div class="indented"><ul id="66a5491c-65b2-4564-bc02-8a3c2af787f8" class="bulleted-list"><li style="list-style-type:disc">consider two threads has to access a file</li></ul><ul id="01eca062-bdc9-4682-ad32-95afdf8f2d44" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow">Thread1 will see the Mutex = 0</mark> and by<mark class="highlight-red"> the time it changes the Mutex to 1, the time slice is already gone</mark>.</li></ul><ul id="7ad09b9a-5591-445d-b9e6-f76d2bbaec34" class="bulleted-list"><li style="list-style-type:disc">now thread2 will see the Mutex = 0 and <mark class="highlight-red">it will change it to 1</mark> (say this thread has a little extra time).<mark class="highlight-red">so thread2 saw it is free and locked it</mark>.</li></ul><ul id="f92ac13c-3a97-4f31-b668-2d240fd466aa" class="bulleted-list"><li style="list-style-type:disc">Thread1 time slice will come again, but <mark class="highlight-yellow">thread1 already saw that file is free</mark>(2nd point), so it doesn’t need to see again, Mutex is already 1 and <mark class="highlight-red">Thread1 will also make it 1</mark> and starts using it.</li></ul><ul id="7b23ea0f-26e4-481a-ac54-19b31c1e69be" class="bulleted-list"><li style="list-style-type:disc">so<mark class="highlight-red"> both the thread will start using the file</mark> and print an <mark class="highlight-red">unwanted ouput</mark>.</li></ul><p id="f202213c-8cc6-4c3c-8041-c168f509d392" class="">
+</p><p id="6ecadd70-097c-4b9e-bdb4-d6e5d0d6dd3a" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Pictorial representation</summary><div class="indented"><figure id="a7f65106-d1b3-43cb-b300-17ec0c75ce8b" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142235.png"><img style="width:192px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142235.png"/></a></figure></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Semaphore</summary><div class="indented"><ul id="fcf676ed-48fa-4383-b405-0ea21a57fb98" class="bulleted-list"><li style="list-style-type:disc">In olden days(before JVM) OS should be there to take care of the file that is called <mark class="highlight-red">semophore</mark>.</li></ul><ul id="a9b9e4e5-807d-43c2-a87a-3ba3d3a4075e" class="bulleted-list"><li style="list-style-type:disc">this technique was supported by Unix OS.</li></ul><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">example:</summary><div class="indented"><ul id="fffb2b20-16ae-45d9-b0af-2abddda7f74b" class="bulleted-list"><li style="list-style-type:disc">consider an ATM machine with security infront of it.</li></ul><ul id="e87595d0-3246-497c-a90b-0a2c7dc2f885" class="bulleted-list"><li style="list-style-type:disc">a person came and wants to withdraw money, the security will allow him to go withdraw.</li></ul><ul id="33203d90-ca08-461b-af6f-35f6b79b42ca" class="bulleted-list"><li style="list-style-type:disc">another person came and the security will say <mark class="highlight-blue">wait </mark> and another person came, they security will say <mark class="highlight-blue">wait</mark>, as long as the first person is still there he will say <mark class="highlight-blue">wait</mark> to other people.</li></ul><ul id="3fe4921b-f13a-4691-a2dd-365730444041" class="bulleted-list"><li style="list-style-type:disc">when the first person is done and he will come out and <mark class="highlight-blue">signal</mark> the security that he’s done.</li></ul><ul id="8325a7b5-4b79-430c-ab4a-a3fa4c6e056f" class="bulleted-list"><li style="list-style-type:disc">the security will tell the next person in the queue to go in. and repeat.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"> process involved in semaphore</summary><div class="indented"><ul id="bba9c4e8-6de5-4b14-915b-a7cd5a27b6e7" class="bulleted-list"><li style="list-style-type:disc">a variable(say Mutex for understanding),block queue, wait()and signal() methods are used.</li></ul><ul id="795710d0-22f0-4e49-bfe3-3450034838a7" class="bulleted-list"><li style="list-style-type:disc">consider 4 threads are there in ready queue to access a file.</li></ul><ul id="e2abf2cc-c5c5-48b1-8de0-7aa18eb7f7be" class="bulleted-list"><li style="list-style-type:disc">when Thread1 wants to access the file, first it will change the mutex to 1, call the wait() and start using the file.<figure id="3afd52b2-0bce-4dbd-9b5b-420f3a9e8b16" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114623.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114623.png"/></a></figure></li></ul><ul id="31aa9549-1eb1-4d38-8df9-d7e99bcbcc00" class="bulleted-list"><li style="list-style-type:disc"> when the time slice is over for Thread1, Thread2 will see that the mutex is 1, so insted of wasting the CPU time(<mark class="highlight-yellow">like Locking/Mutex</mark>) it will send that thread to blocked queue.<figure id="8942c456-9265-48c3-9e25-aa769ab88a85" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114718.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114718.png"/></a></figure></li></ul><ul id="544dcac8-ce12-42b0-ab27-b5a426bef860" class="bulleted-list"><li style="list-style-type:disc">when time slize is over for thread 2, the same will happen for Thread3 and Thread 4 doesn’t want to use the cpu time yet.<figure id="707ef332-8316-4892-a974-877f377b3593" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114923.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_114923.png"/></a></figure></li></ul><ul id="d8f8dedc-075f-4803-af83-552632e34947" class="bulleted-list"><li style="list-style-type:disc">now thread1 is finished using the file, so it will call the signal method and the signal method will make the Mutex = 0.</li></ul><ul id="6f9bc058-c292-4e1c-98f9-e18a75294941" class="bulleted-list"><li style="list-style-type:disc">then thread2 will start using it and it will come back to ready queue.<figure id="67e6c5f7-959e-45e6-b75a-f13f27a17c5d" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_115244.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_115244.png"/></a></figure></li></ul><ul id="7b3dda21-c398-435e-82b3-e712741cd450" class="bulleted-list"><li style="list-style-type:disc">now thread2 will make the mutex = 1 and start using it, untill it finishes the other threads may be in blocked queue or ready queue.</li></ul><ul id="a53553d5-9390-4295-ad8d-d732467f7755" class="bulleted-list"><li style="list-style-type:disc">once thread2 finishes file it will call the signal method and the signal method will make the mutex = 0.</li></ul><ul id="61e8b9c5-5b56-4c74-8509-8e3db61afe1d" class="bulleted-list"><li style="list-style-type:disc">same process will happen for Thread3 and Thread4.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">pictorial representation</summary><div class="indented"><figure id="fadfbf21-838f-4d71-8d17-d77a786c2cfb" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142057.png"><img style="width:192px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142057.png"/></a></figure></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Monitor</summary><div class="indented"><ul id="277c0b86-c2bf-453a-a8c1-260a6af481be" class="bulleted-list"><li style="list-style-type:disc">important topic</li></ul><ul id="c5bd0626-7928-413e-841f-59aa8b2d9e7d" class="bulleted-list"><li style="list-style-type:disc">read, write methods, object are along with the shared data.</li></ul><ul id="7a19acc7-f060-4646-a857-bef0e536a44a" class="bulleted-list"><li style="list-style-type:disc">the entire mechanism are there along with the data.</li></ul><ul id="7306e420-7b67-45de-bba2-07ec3993fb0c" class="bulleted-list"><li style="list-style-type:disc">there is no locking or unlocking, it is built-in inside.</li></ul><ul id="b1f515bb-41fb-4e71-9b67-e88709c5f9ca" class="bulleted-list"><li style="list-style-type:disc">this entire thing is an object(as in OOP).</li></ul><ul id="0bc080ef-2134-4cf8-ad5c-afe54ed8c4aa" class="bulleted-list"><li style="list-style-type:disc">waiting locking and unlocking will be taken care by the object itself.<figure id="c6ee3f7d-9204-412d-bd21-2c2ba9f3cf8a" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142000.png"><img style="width:240px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_142000.png"/></a></figure><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">How to implement monitor in program?</summary><div class="indented"><ul id="043d384d-621e-4a63-9f90-a0ba7d0a0258" class="bulleted-list"><li style="list-style-type:disc">To execute one entire thread at a time, there are two ways to achieve this<ul id="6e4e256a-0538-4ea4-b066-90da0107ee5d" class="bulleted-list"><li style="list-style-type:circle">create a separate synchronized block <figure id="0b2f17f7-a2a1-4925-8085-4585d4caf18d" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_143113.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_143113.png"/></a></figure></li></ul><ul id="d9569015-eab6-4fed-bf5b-b3dcc8bc6518" class="bulleted-list"><li style="list-style-type:circle">make the method itself a synchronized method.<figure id="4c9bc166-f056-4e0f-b1ec-ac97c775ec94" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_143200.png"><img style="width:336px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-19_143200.png"/></a></figure><p id="cd308417-f9d1-4631-adda-42f8444c0ae6" class="">
+</p></li></ul></li></ul></div></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Inter-Thread Communication and Race Condition</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"> one producer thread and one consumer thread.</summary><div class="indented"><ul id="20283e04-1893-400d-a256-2674ff9997f9" class="bulleted-list"><li style="list-style-type:disc">producer thread is used for<mark class="highlight-red"> writing</mark> in the shared object</li></ul><ul id="eaf047e2-1e67-4509-8bb4-441a97296b23" class="bulleted-list"><li style="list-style-type:disc">consumer thread is used for <mark class="highlight-red">reading</mark> from the shared object.</li></ul><ul id="53861f85-c932-493c-bbb4-737640d3984d" class="bulleted-list"><li style="list-style-type:disc">flag(like mutex) can be set to <mark class="highlight-red">true</mark> to tell the producer, that something can be written, at that time consumer will be in blocked queue.</li></ul><ul id="f43d85ea-fb3d-43a6-94d4-41f49d617840" class="bulleted-list"><li style="list-style-type:disc">when producer thread is done, it can change the flag to <mark class="highlight-red">False, </mark>and the producer will go to the blocked queue.</li></ul><ul id="fb08d9d0-5c5f-47fd-bf1f-cd6b3343c3cf" class="bulleted-list"><li style="list-style-type:disc">that is the signal for consumer to read the shared object, when the consumer is done it will change the flag to <mark class="highlight-red">true</mark> again.  <figure id="3391c27d-54e6-493e-8047-47c375f19cce" class="image"><a href="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-20_095826.png"><img style="width:288px" src="Multithreading%20fa29a53a92d144f989e9523314470243/Screenshot_2024-02-20_095826.png"/></a></figure><p id="a33bda04-e9cb-4e90-96b1-c5b6654f46f0" class="">
+</p></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"> one producer thread and  more than one consumer thread.</summary><div class="indented"><ul id="5039bcb0-2d3b-4d53-a73b-fc1d2766f5e8" class="bulleted-list"><li style="list-style-type:disc">producer thread is used for<mark class="highlight-red"> writing</mark> in the shared object</li></ul><ul id="a97b25fe-4714-49bb-bbc5-fe7b49f84803" class="bulleted-list"><li style="list-style-type:disc">consumer thread is used for <mark class="highlight-red">reading</mark> from the shared object.</li></ul><ul id="63f7fac6-9f36-4dfa-b0fc-87f1ede499eb" class="bulleted-list"><li style="list-style-type:disc">it will have a count that is set to 0 (<mark class="highlight-yellow">count = 0</mark>) initially.</li></ul><ul id="963b51ff-7b21-4628-a2c2-1761592647cd" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow">if count is 0 then it’s producer thread turn to write something in the shared object.</mark></li></ul><ul id="dd16cbad-da7e-4a13-a4b2-8c0325a937c8" class="bulleted-list"><li style="list-style-type:disc">once it is done producing, the counter will increment and the fist consumer is able to read the shared object.</li></ul><ul id="e81779dd-36b2-4a0f-b06b-aea2cc1cf426" class="bulleted-list"><li style="list-style-type:disc">once the first consumer finishes consuming it will increment the counter, and the second consumer is able to read the shared object.</li></ul><ul id="2a293f87-22d2-482f-b671-8cd17d1579f4" class="bulleted-list"><li style="list-style-type:disc">these steps repeats untill the last consumer finishes consuming, then it will make count as 0 (<mark class="highlight-yellow">count = 0</mark>).</li></ul><ul id="bb4f19ea-86dd-433b-b340-e8e1f4f8ab69" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow"> if count is 0 then it’s producer thread turn to write something in the shared object.</mark><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Actual Race conidtion occurs when Count is not used </summary><div class="indented"><ul id="bfe9a2be-1797-4493-bb03-1366211fe5cc" class="bulleted-list"><li style="list-style-type:disc">lets say there is one producer and 3 consumer initially.(obj: first producer should write something and all the cosumer should read it.)</li></ul><ul id="3836219c-b3cf-490d-8eee-c061af1f6dca" class="bulleted-list"><li style="list-style-type:disc">first the producer will write something in the shared object and will move to the blocked queue.</li></ul><ul id="0f3523bd-c510-4133-b099-f18ac64885b4" class="bulleted-list"><li style="list-style-type:disc">consumer1 will come and access the shared data and it will notify all the other thread(ie. hey I’m done using it, you can come and use it )and goes to the blocked queue.</li></ul><ul id="843caada-5203-4d58-8eb2-41326f7a199f" class="bulleted-list"><li style="list-style-type:disc">so the consumer1 <mark class="highlight-red">notified before going to blocked queue</mark>, so any thread can go and access the file(even the producer can access it as well), that is called as the <mark class="highlight-red">Race Condition</mark>, the other threads will run for accessing the file just like a race.</li></ul><ul id="8080948a-ae17-4d4d-a899-10840bca64d2" class="bulleted-list"><li style="list-style-type:disc">hence the objective cannot be achieved.</li></ul><ul id="e8876274-ea86-4e62-9fa5-681b9a4c6dc6" class="bulleted-list"><li style="list-style-type:disc">so the race condition can be avoided using <mark class="highlight-red">count in Inter-Thread communication</mark>. </li></ul></div></details></li></ul></div></details></div></details></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
