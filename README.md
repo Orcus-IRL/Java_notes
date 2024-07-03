@@ -1,5 +1,5 @@
 
-# Java Notes
+# Java (Notion Notes)
 
 This repository contains notes and code examples for learning Java. It is intended as a resource for students and developers to understand and implement various Java concepts.
 
