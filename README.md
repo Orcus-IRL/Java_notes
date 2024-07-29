@@ -20,6 +20,7 @@ This repository contains notes and code examples for learning Java. It is intend
   - Exception Handling
   - File I/O
   - Multithreading
+  - Synchronization
 
 ## How to Use
 
